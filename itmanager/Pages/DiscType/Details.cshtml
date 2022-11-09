@@ -1,0 +1,27 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.DiscType.DetailsModel
+
+@{
+    ViewData["Module"] = "Tipos de Disco";
+    ViewData["Title"] = "Detalle de Tipo de Disco";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div>
+    <h4><strong>Tipo de Disco ID: @Html.DisplayFor(model => model.TddTipoDisco.TddId)</strong></h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TddTipoDisco.TddNombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TddTipoDisco.TddNombre)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.TddTipoDisco.TddId">Edit</a> |
+    <a class="btn btn-warning" asp-page="./Index">Back to List</a>
+</div>
+<br />

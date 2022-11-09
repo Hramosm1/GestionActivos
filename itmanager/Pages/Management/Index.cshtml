@@ -1,0 +1,78 @@
+﻿@page
+@using itmanager.Class
+@model itmanager.Pages.Management.IndexModel
+
+@{
+    ViewData["SelectID"] = "";
+    ViewData["Select"] = "";
+    ViewData["Title"] = "Asignación de Activos";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th width="100%">Nombre de Empleado</th>
+                        <th>Cargo</th>
+                        <th>Extension</th>
+                        <th>Correo</th>
+                        <th>Area</th>
+                        <th>Estado</th>
+                        <th nowrap>Nro. de activos</th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.EmpEmpleado) {
+                    <tr>
+                        <td>
+                            <img src="@UtilitiesHandler.GetAvatarName(item.EmpNombre)">
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmpNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmpCargo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmpExtension)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmpCorreo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmpArea)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmpEstado)                         
+                        </td>
+                        <td>
+                            @item.AceActivoEmpleados.Count
+                        </td>
+
+                            @{
+                                string css = "disabled btn-secondary";
+                                if (@item.AceActivoEmpleados.Count > 0) {
+                                    css = "btn-primary";
+                                } 
+
+                        }
+                        <td nowrap>
+                              <a class="btn @css" asp-page="./MyActives" asp-route-id="@item.EmpId">Ver activos</a>
+                            | <a class="btn btn-primary" asp-page="./AssignActives" asp-route-id="@item.EmpId">Asignar nuevo activo</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+      </div>
+    </div>
+</div>

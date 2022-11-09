@@ -1,0 +1,27 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    Layout = "~/Pages/Shared/_Login.cshtml";
+
+    string msg = Model.Messages.toast();
+}       
+    <form class="m-t" role="form" method="post">
+        <div class="form-group" style="margin-top:5px">
+            <input asp-for="@Model.userfield" class="form-control" placeholder="Username" required="">
+        </div>
+        <div class="form-group" style="margin-top:5px">
+            <input asp-for="@Model.passwordfield" class="form-control" placeholder="Password" required="" type="password">
+        </div>
+        <button asp-page-handler="Authentication" type="submit"  class="btn btn-primary block full-width m-b"  style="margin-top:5px">Login</button>
+
+    </form>
+
+<!-- Utilities --> 
+<script src="~/js/sweetalert2@11.js"></script>
+<script>
+@Html.Raw(msg);
+</script>
+
+
+

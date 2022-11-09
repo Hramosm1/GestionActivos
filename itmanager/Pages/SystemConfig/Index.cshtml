@@ -1,0 +1,60 @@
+﻿@page
+@model itmanager.Pages.SystemConfig.IndexModel
+
+@{
+    ViewData["Module"] = "Sistema";
+    ViewData["Title"] = "Listado de Configuraciones de Sistema";
+}
+
+<partial name="_Breadcrumb"/>
+<p style="margin-top:10px"><a asp-page="Create" class="btn btnew btn-warning">Crear nuevo</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th width="100%">
+                            Nombre
+                        </th>
+                        <th>
+                           Descripción
+                        </th>
+                        <th>
+                            Proceso
+                        </th>
+                        <th>
+                            Tipo
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.SisSistema) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SisNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SisDescripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SisProceso)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SisTipo)
+                        </td>
+                        <td nowrap>
+                              <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.SisId">Editar</a>
+                            | <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.SisId">Detalle</a>
+                            | <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.SisId">Borrar</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />

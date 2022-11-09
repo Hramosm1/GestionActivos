@@ -1,0 +1,36 @@
+﻿@page "{id:int}/{dt:int}" 
+@model itmanager.Pages.Active.Disc.EditModel
+
+@{
+    ViewData["Module"] = "Discos";
+    ViewData["Title"] = "Edición de Discos";
+}
+<partial name="_Breadcrumb"/>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Disco.DdId" />
+            <div class="item-4">
+                <label asp-for="Disco.DdCapacidad" class="control-label">Capacidad</label>
+                <input asp-for="Disco.DdCapacidad" class="form-control" />
+                <span asp-validation-for="Disco.DdCapacidad" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="Disco.TddId" class="control-label">Tipo de Procesador</label>
+                <select asp-for="Disco.TddId" class="form-control" asp-items="ViewBag.TddId"></select>
+                <span asp-validation-for="Disco.TddId" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Save" class="btn btn-primary" /> |
+                    <a asp-page="./Index" class="btn btn-warning" asp-route-id="@RouteData.Values["id"]">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

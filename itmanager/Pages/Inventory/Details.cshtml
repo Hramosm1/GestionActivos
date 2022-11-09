@@ -1,0 +1,45 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Inventory.DetailsModel
+
+@{
+    ViewData["Module"] = "Inventario";
+    ViewData["Title"] = "Detalle de Inventario";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div>
+    <h4>Inventario ID: @Html.DisplayFor(model => model.InvInventario.InvId)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre del Inventario
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvInventario.InvNombre)
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Creación
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvInventario.InvDate)
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Inicio
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvInventario.InvInicio)
+        </dd>
+        <dt class="col-sm-2">
+           Fecha de Fin
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvInventario.InvFin)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.InvInventario.InvId">Editar</a> |
+    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+</div>
+<br />

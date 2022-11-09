@@ -1,0 +1,30 @@
+﻿@page
+@model itmanager.Pages.ActiveType.CreateModel
+
+@{
+    ViewData["Module"] = "Tipos de Activo";
+    ViewData["Title"] = "Creación de Tipos de Activo";
+}
+<partial name="_Breadcrumb"/>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="item item-4">
+                <label asp-for="TacTipoActivo.TacNombre" class="control-label">Nombre de tipo de activo</label>
+                <input asp-for="TacTipoActivo.TacNombre" class="form-control" />
+                <span asp-validation-for="TacTipoActivo.TacNombre" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <input type="submit" value="Crear" class="btn btn-primary" /> | 
+                <a class="btn btn-warning" asp-page="Index">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

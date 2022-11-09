@@ -1,0 +1,62 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Inventory.DeleteModel
+
+@{
+    ViewData["Module"] = "Inventario";
+    ViewData["Title"] = "Borrado de Inventario";
+}
+
+<partial name="_Breadcrumb"/>
+
+<h3>Quieres eliminar este registro?</h3>
+<div>
+    <h4><strong>Inventario ID: @Html.DisplayFor(model => model.InvInventario.InvId)</strong></h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre de Inventario
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvInventario.InvNombre)
+        </dd>
+        <dt class="col-sm-2">
+           Fecha de Creación
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvInventario.InvDate)
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Inicio
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvInventario.InvInicio)
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Fin
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvInventario.InvFin)
+        </dd>
+    </dl>
+    
+    <form method="post" id="formdelete">
+        <input type="hidden" asp-for="InvInventario.InvId" />
+        <input type="button" onclick="confirmdelete()" value="Borrar" class="btn btn-danger" /> |
+        <a asp-page="./Index" class="btn btn-warning">Volver a la lista</a>
+    </form>
+</div>
+<br />
+
+
+<script>
+
+    function confirmdelete() {
+
+        Swal.fire({ title: 'Estas seguro?', text: "Esta acción no se puede revertir!", icon: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Si, borralo!' }).then((result) => {
+            if (result.isConfirmed) {
+                $('formdelete').submit();
+            }
+        })
+  }
+
+</script>

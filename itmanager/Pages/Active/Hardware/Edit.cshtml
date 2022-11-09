@@ -1,0 +1,46 @@
+﻿@page "{id:int}/{dt:int}" 
+@model itmanager.Pages.Active.Hardware.EditModel
+
+@{
+    ViewData["Module"] = "Hardware";
+    ViewData["Title"] = "Edición de Hardware";
+}
+<partial name="_Breadcrumb"/>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="HwHardwareSpec.HwId" />
+            <div class="item-4">
+                <label asp-for="HwHardwareSpec.HwModeloproc" class="control-label">Modelo de procesador</label>
+                <input asp-for="HwHardwareSpec.HwModeloproc" class="form-control" />
+                <span asp-validation-for="HwHardwareSpec.HwModeloproc" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="HwHardwareSpec.HwGeneracionproc" class="control-label">Generación del Procesador</label>
+                <input asp-for="HwHardwareSpec.HwGeneracionproc" class="form-control" />
+                <span asp-validation-for="HwHardwareSpec.HwGeneracionproc" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="HwHardwareSpec.HwMemoria" class="control-label">Memoria</label>
+                <input asp-for="HwHardwareSpec.HwMemoria" class="form-control" />
+                <span asp-validation-for="HwHardwareSpec.HwMemoria" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="HwHardwareSpec.TprId" class="control-label">Tipo de Procesador</label>
+                <select asp-for="HwHardwareSpec.TprId" class="form-control" asp-items="ViewBag.TprId"></select>
+                <span asp-validation-for="HwHardwareSpec.TprId" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Save" class="btn btn-primary" /> |
+                    <a asp-page="./Index" class="btn btn-warning" asp-route-id="@RouteData.Values["id"]">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

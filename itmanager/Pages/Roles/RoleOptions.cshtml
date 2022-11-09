@@ -1,0 +1,97 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Roles.RoleOptionsModel
+
+@{
+    ViewData["Module"] = "Opciones pos Rol";
+    ViewData["Title"] = "Listado de Opciones por Rol";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <form method="post" name="formsave">
+            <table id="datagridopc" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th style="width:50%">
+                           Nombre
+                        </th>
+                        <th style="width:50%">
+                           Modulo
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @{
+                // Padres
+                IEnumerable<Models.OpcOpcion> filter = Model.OpcOpcion.Where(x => x.OpcPadre.Equals(null)).OrderBy(x => x.OpcOrden);
+            }
+
+                @foreach (Models.OpcOpcion parent in filter) {
+
+                    string c = "";
+                    foreach (Models.OroOpcionRol opc in Model.OpcRol)
+                    {
+                        if (opc.OpcId == parent.OpcId)
+                            c = "checked";
+                    }
+
+                    <tr>
+                        <td>
+                            <b> @Html.DisplayFor(modelItem => parent.OpcId) </b>
+                        </td>
+                        <td nowrap>
+                            <b> @Html.DisplayFor(modelItem => parent.OpcNombre) </b>
+                        </td>
+                        <td nowrap>
+                            <b> @Html.DisplayFor(modelItem => parent.OpcNombreModulo) </b>
+                        </td>
+                        <td nowrap>
+                            <input type="checkbox" name="rols[]" value="@parent.OpcId" @c>
+                        </td>
+                    </tr>    
+
+                    IEnumerable<Models.OpcOpcion> filterchild = Model.OpcOpcion.Where(x => x.OpcPadre == parent.OpcId).OrderBy(x => x.OpcOrden);
+                    @foreach (Models.OpcOpcion child in filterchild) {
+
+                        string d = "";
+                        foreach (Models.OroOpcionRol opc in Model.OpcRol)
+                        {
+                            if (opc.OpcId == child.OpcId)
+                                d = "checked";
+                        }
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => child.OpcId)
+                            </td>
+                            <td nowrap>
+                                @Html.DisplayFor(modelItem => child.OpcNombre)
+                            </td>
+                            <td nowrap>
+                                @Html.DisplayFor(modelItem => child.OpcNombreModulo)
+                            </td>
+                            <td nowrap>
+                                <input type="checkbox" name="rols[]" value="@child.OpcId" @d>
+                            </td>
+                        </tr>   
+
+                    }
+
+                }
+                         <button type="submit" class="btn btn-primary" value="Guardar Cambios" asp-page-handler="save">Guardar Cambios</button>
+                  
+                </tbody>
+            </table>
+             </form>
+        </div>
+    </div>
+</div>
+
+

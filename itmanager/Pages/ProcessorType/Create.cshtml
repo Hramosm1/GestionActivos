@@ -1,0 +1,33 @@
+﻿@page
+@model itmanager.Pages.ProcessorType.CreateModel
+
+@{
+    ViewData["Module"] = "Tipo de Procesador";
+    ViewData["Title"] = "Creación de Tipos de Procesador";
+}
+
+<h1>Create</h1>
+
+<h4>TprTipoProcesador</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox" enctype = "multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="item item-4">
+                <label asp-for="TprTipoProcesador.TprNombre" class="control-label">Nombre</label>
+                <input asp-for="TprTipoProcesador.TprNombre" class="form-control" />
+                <span asp-validation-for="TprTipoProcesador.TprNombre" class="text-danger"></span>
+            </div>
+            <div class="item item-2">
+                <label asp-for="FileUpload.FormFile" class="control-label"></label>
+                <input asp-page-handler="Upload" asp-for="FileUpload.FormFile" class="form-control" type="file" />
+                <span asp-validation-for="FileUpload.FormFile" class="text-danger"></span>
+            </div>
+            <div class="item item-5" nowrap>
+                <input type="submit" value="Crear" class="btn btn-primary" /> | 
+                <a class="btn btn-warning" asp-page="Index">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>

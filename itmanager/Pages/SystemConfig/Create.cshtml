@@ -1,0 +1,43 @@
+﻿@page
+@model itmanager.Pages.SystemConfig.CreateModel
+
+@{
+    ViewData["Module"] = "Sistema";
+    ViewData["Title"] = "Listado de Configuraciones de Sistema";
+}
+<partial name="_Breadcrumb"/>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+       <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="item item-4">
+                <label asp-for="SisSistema.SisNombre" class="control-label">Nombre</label>
+                <input asp-for="SisSistema.SisNombre" class="form-control" />
+                <span asp-validation-for="SisSistema.SisNombre" class="text-danger"></span>
+            </div>
+            <div class="item item-4">
+                <label asp-for="SisSistema.SisDescripcion" class="control-label">Descripción</label>
+                <input asp-for="SisSistema.SisDescripcion" class="form-control" />
+                <span asp-validation-for="SisSistema.SisDescripcion" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="SisSistema.SisProceso" class="control-label">Proceso</label>
+                <input asp-for="SisSistema.SisProceso" class="form-control" />
+                <span asp-validation-for="SisSistema.SisProceso" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="SisSistema.SisTipo" class="control-label">Tipo</label>
+                <input asp-for="SisSistema.SisTipo" class="form-control" />
+                <span asp-validation-for="SisSistema.SisTipo" class="text-danger"></span>
+            </div>
+            <div class="item item-5" nowrap>
+                <input type="submit" value="Crear" class="btn btn-primary" /> | 
+                <a class="btn btn-warning" asp-page="Index">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+

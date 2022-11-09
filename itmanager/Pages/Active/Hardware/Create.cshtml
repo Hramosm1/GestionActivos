@@ -1,0 +1,44 @@
+﻿@page "{id:int}"
+@using itmanager.Class
+@using System.IO
+
+@model itmanager.Pages.Active.Hardware.CreateModel
+
+@{
+    ViewData["Title"] = "Creación de Hardware";
+}
+<partial name="_Breadcrumb"/>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="item">
+                <label asp-for="HwHardwareSpec.HwModeloproc" class="control-label">Modelo de Procesador</label>
+                <input asp-for="HwHardwareSpec.HwModeloproc" class="form-control" />
+                <span asp-validation-for="HwHardwareSpec.HwModeloproc" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="HwHardwareSpec.HwGeneracionproc" class="control-label">Generación del Procesador</label>
+                <input asp-for="HwHardwareSpec.HwGeneracionproc" class="form-control" />
+                <span asp-validation-for="HwHardwareSpec.HwGeneracionproc" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="HwHardwareSpec.HwMemoria" class="control-label">Memoria</label>
+                <input asp-for="HwHardwareSpec.HwMemoria" class="form-control" />
+                <span asp-validation-for="HwHardwareSpec.HwMemoria" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="HwHardwareSpec.TprId" class="control-label">Tipo de Procesador</label>
+                <select asp-for="HwHardwareSpec.TprId" class="form-control" asp-items="ViewBag.TprId"></select>
+                <span asp-validation-for="HwHardwareSpec.TprId" class="text-danger"></span>
+            </div>
+            <div class="item-5">
+                <input type="submit" value="Crear" class="btn btn-primary" /> | 
+                <a class="btn btn-warning" asp-page="Index">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,47 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Parameters.EditModel
+
+@{
+    ViewData["Module"] = "Parametros";
+    ViewData["Title"] = "Edición de Parametros";
+}
+
+<partial name="_Breadcrumb"/>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ParParametro.ParId" />
+            <div class="item item-4">
+                <label asp-for="ParParametro.ParNombre" class="control-label">Nombre</label>
+                <input asp-for="ParParametro.ParNombre" class="form-control" />
+                <span asp-validation-for="ParParametro.ParNombre" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="ParParametro.ParValor1" class="control-label">Valor #1</label>
+                <input asp-for="ParParametro.ParValor1" class="form-control" />
+                <span asp-validation-for="ParParametro.ParValor1" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="ParParametro.ParValor2" class="control-label">Valor #2</label>
+                <input asp-for="ParParametro.ParValor2" class="form-control" />
+                <span asp-validation-for="ParParametro.ParValor2" class="text-danger"></span>
+            </div>
+            <div class="item item-4">
+                <label asp-for="ParParametro.ParTipo" class="control-label">Tipo</label>
+                <select asp-for="ParParametro.ParTipo" class="form-control" asp-items="ViewBag.ParTipo"></select>
+                <span asp-validation-for="ParParametro.ParTipo" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-primary" /> |
+                    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />

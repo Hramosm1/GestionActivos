@@ -1,0 +1,41 @@
+﻿@page
+@model itmanager.Pages.ActiveType.IndexModel
+
+@{
+    ViewData["Module"] = "Tipos de Activo";
+    ViewData["Title"] = "Listado de Tipos de Activo";
+}
+
+<partial name="_Breadcrumb"/>
+<p style="margin-top:10px"><a asp-page="Create" class="btn btnew btn-warning">Crear nuevo</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th width="100%">
+                            Tipo de Activo
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.TacTipoActivo) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TacNombre)
+                        </td>
+                        <td nowrap>
+                              <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.TacId">Editar</a>
+                            | <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.TacId">Detalle</a>
+                            | <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.TacId">Eliminar</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

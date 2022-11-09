@@ -1,0 +1,83 @@
+﻿@page
+@model itmanager.Pages.Options.IndexModel
+
+@{
+    ViewData["Module"] = "Opciones";
+    ViewData["Title"] = "Listado de Opciones";
+}
+
+<partial name="_Breadcrumb"/>
+<p style="margin-top:10px"><a asp-page="Create" class="btn btnew btn-warning">Crear nuevo</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th style="width:100%">
+                           Nombre
+                        </th>
+                        <th>
+                           Modulo
+                        </th>
+                        <th>
+                            Objeto
+                        </th>
+                        <th>
+                            Logo
+                        </th>
+                        <th>
+                           Orden
+                        </th>
+                        <th>
+                           Padre
+                        </th>
+                        <th>
+                           Deshabilitado
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.OpcOpcion) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpcId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpcNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpcNombreModulo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpcNombreObject)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpcLogo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpcOrden)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpcPadre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpcDeshabilitadoSistema)
+                        </td>
+                        <td nowrap>
+                              <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.OpcId">Editar</a>
+                            | <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.OpcId">Detalle</a>
+                            | <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.OpcId">Borrar</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

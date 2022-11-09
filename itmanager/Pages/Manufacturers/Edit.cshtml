@@ -1,0 +1,32 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Manufacturers.EditModel
+
+@{
+    ViewData["Module"] = "Fabricantes";
+    ViewData["Title"] = "Edición de Fabricantes";
+}
+
+<partial name="_Breadcrumb"/>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TfaTipoFabricante.TfaId" />
+            <div class="item item-4">
+                <label asp-for="TfaTipoFabricante.TfaNombre" class="control-label">Nombre</label>
+                <input asp-for="TfaTipoFabricante.TfaNombre" class="form-control" required />
+                <span asp-validation-for="TfaTipoFabricante.TfaNombre" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-primary" /> |
+                    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />

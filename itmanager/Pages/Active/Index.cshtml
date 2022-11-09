@@ -1,0 +1,158 @@
+﻿@page
+@using itmanager.Class
+@using System.IO
+@model itmanager.Pages.Active.IndexModel
+
+@{
+    ViewData["Title"] = "Listado de Activos";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div style="display:flex; flex-direction:row; margin-bottom:15px">
+    <div style="display:flex; flex-direction:column">
+        <button class="btn btnew btn-warning" id="btn-show-scanner" onclick="searchqr()"> Buscar activo desde QRCode</button> 
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;margin-left:10px"> 
+        <a asp-page="Create" class="btn btnew btn-warning"><i class="fa-solid fa-circle-plus"></i> Crear nuevo</a>
+    </div>
+</div>
+
+<div id="reader" width="600px"></div>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+@*                      <th>QRCode</th>*@
+                        <th style="width:90%">Modelo</th>
+                        <th>Serie </th>
+                        <th>Estado</th>
+                        @*<th nowrap>Imagen</th>*@
+                        <th nowrap>Tipo de Activo</th>
+                        <th>Fabricante </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.ActActivo) {
+                    <tr>
+            @{
+                BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+                AppConfig appConfig = Breadcrumb.Config;
+
+                string pathQ = UtilitiesHandler.ImgRoute(appConfig.ImagePathQRCode + item.ActUid + appConfig.ImageQRCodeExt);
+               /* string path1 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + item.ActImagen1);
+                string path2 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + item.ActImagen2);
+                string noimg = UtilitiesHandler.ImgRoute(appConfig.ImagePathNoImg);*/
+            }
+@*                        <td>
+                            <img id="imgqrcode" src="@pathQ" onerror="this.onerror=null;this.src='@noimg';"/>
+                        </td>*@
+                        <td>
+                            <p class="pgridt">@Html.DisplayFor(modelItem => item.ActModelo)</p>
+                            <p class="pgridd">@Html.DisplayFor(modelItem => item.ActObservaciones)</p>
+                            <p class="pgridt activeuid"><span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.ActUid)</span>
+
+                                @if (item.ActUid != null)
+                                {
+                                    <span class="badge bg-secondary" ><a style="color:#FFF;font-size:10px" title="Etiqueta 1x1" href="Active/QRPrint1/@Html.DisplayFor(modelItem => item.ActUid)"><i class="fa fa fa-qrcode" aria-hidden="true" style="margin-right:5px"></i>ET1</a></span>
+                                    <span class="badge bg-secondary"><a style="color:#FFF;font-size:10px" title="Etiqueta 5x2" href="Active/QRPrint2/@Html.DisplayFor(modelItem => item.ActUid)"><i class="fa fa fa-qrcode" aria-hidden="true" style="margin-right:5px"></i>ET2</a></span>
+                                } 
+
+                            </p>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActSerie)
+                        </td>
+                        <td>
+                                @{ string css = UtilitiesHandler.StateCSS(item.ActEstado); }
+                                 <span class="badge @css">@Html.DisplayFor(modelItem => item.ActEstado)</span>
+                        </td>
+@*                        <td align="center">
+                            @Html.DisplayFor(modelItem => item.ActInactivo)
+                        </td>*@
+                        @*<td>
+                            <img id="imgprofile" src="@path1" onerror="this.onerror=null;this.src='@noimg';"/>
+                        </td>*@
+   @*                     <td>
+                            <img id="imgprofile" src="@path2" onerror="this.onerror=null;this.src='@noimg';"/>
+                        </td> *@                       
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tac.TacNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tfa.TfaNombre)
+                        </td>
+                        
+                        <td class="actionbuttons">
+
+                            @if (item.ActInactivo)
+                                {
+                                    
+                                  <a class="btn btn-secondary disabled" asp-page="./Edit" asp-route-id="@item.ActId" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                } else
+                                {
+                                  <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.ActId" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                } 
+                            | <a class="btn btn-primary" href="/Active/Details/@item.ActId" title="Detalle"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                            | <a class="btn btn-primary" href="/Active/Hardware/@item.ActId" title="Hardware"><i class="fa-solid fa-microchip"></i></a>
+                            | <a class="btn btn-primary" href="/Active/Disc/@item.ActId" title="Discos"><i class="fa-solid fa-hard-drive"></i></a>
+                            | 
+
+                                @if (item.ActEstado == "almacenado")
+                                {
+                                  <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.ActId" title="Eliminar"><i class="fa fa-trash-o fa-lg"></i></a>  
+                                } 
+                                else
+                                {
+                                  <a class="btn btn-secondary" disabled href="#" title="Eliminar"><i class="fa fa-trash-o fa-lg"></i></a>
+                                }
+                            
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+
+
+<script src="~/js/html5-qrcode.min.js"></script>
+<script>
+
+    function searchqr() {
+
+        const html5QrCode = new Html5Qrcode("reader");
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+
+           const info = decodedText.split("|");
+            $('#datagrid').DataTable().search(info[0]).draw();
+
+            html5QrCode.stop().then((ignore) => {
+              // QR Code scanning is stopped.
+            }).catch((err) => {
+              // Stop failed, handle it.
+            });
+        };
+
+        const config = { fps: 10, qrbox: { width: 600, height: 600 } };
+
+        // If you want to prefer front camera
+        html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
+        // If you want to prefer back camera
+        //html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+    }
+
+    function onScanFailure(error) {
+      console.warn(`Code scan error = ${error}`);
+    }
+
+
+
+</script>

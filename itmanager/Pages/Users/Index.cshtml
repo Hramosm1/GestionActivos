@@ -1,0 +1,89 @@
+﻿@page
+@model itmanager.Pages.Users.IndexModel
+
+@{
+    ViewData["Module"] = "Usuarios";
+    ViewData["Title"] = "Listado de Usuarios";
+}
+
+<partial name="_Breadcrumb"/>
+<p style="margin-top:10px"><a asp-page="Create" class="btn btnew btn-warning">Crear nuevo</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th width="100%">
+                           Nombre
+                        </th>
+                        <th>
+                           Fecha Final
+                        </th>
+                        <th>
+                           Login
+                        </th>
+                        <th>
+                            Admin
+                        </th>
+                        <th>
+                            Bloqueado
+                        </th>
+                        <th>
+                           Asigna Activos
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.UsuUsuario) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UsuId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UsuNombre)
+                        </td>
+                        <td nowrap>
+                            @Html.DisplayFor(modelItem => item.UsuFechaFinal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UsuLogin)
+                        </td>
+                        <td style="align:center">
+                            @Html.DisplayFor(modelItem => item.UsuAdmin)
+                        </td>
+                        <td style="align:center">
+                            @Html.DisplayFor(modelItem => item.UsuBloqueado)
+                        </td>
+                        <td style="align:center">
+                            @Html.DisplayFor(modelItem => item.UsuAsignaActivos)
+                        </td>
+                        <td nowrap>
+                            @if (item.UsuBloqueado && Model.UsuAdmin != 1)
+                                {
+                                  <a class="btn btn-secondary disabled" asp-page="./Edit" asp-route-id="@item.UsuId">Editar</a>
+                                  <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.UsuId">Detalle</a>
+                                  <a class="btn btn-secondary disabled" asp-page="./UserRole" asp-route-id="@item.UsuId">Asignar Rol</a>
+                                  <a class="btn btn-secondary disabled" asp-page="./Delete" asp-route-id="@item.UsuId">Borrar</a>
+                                } 
+                                else
+                                {
+                                  <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.UsuId">Editar</a>
+                                  <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.UsuId">Detalle</a>
+                                  <a class="btn btn-primary" asp-page="./UserRole" asp-route-id="@item.UsuId">Asignar Rol</a>
+                                  <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.UsuId">Borrar</a>
+                                } 
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />

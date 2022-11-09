@@ -1,0 +1,49 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Parameters.DeleteModel
+
+@{
+    ViewData["Module"] = "Parametros";
+    ViewData["Title"] = "Borrado de Parametros";
+}
+
+<partial name="_Breadcrumb"/>
+
+<h3>Quieres eliminar este registro?</h3>
+<div>
+    <h4><strong>Parametro ID: @Html.DisplayFor(model => model.ParParametro.ParId)</strong></h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ParParametro.ParNombre)
+        </dd>
+        <dt class="col-sm-2">
+           Valor #1
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ParParametro.ParValor1)
+        </dd>
+        <dt class="col-sm-2">
+            Valor #2
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ParParametro.ParValor2)
+        </dd>
+        <dt class="col-sm-2">
+           Tipo
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ParParametro.ParTipoNavigation.TipId)
+        </dd>
+    </dl>
+    
+    
+    <form method="post">
+        <input type="hidden" asp-for="ParParametro.ParId" />
+        <input type="submit" value="Borrar" class="btn btn-danger" /> |
+        <a asp-page="./Index" class="btn btn-warning">Volver a la lista</a>
+    </form>
+</div>
+<br />

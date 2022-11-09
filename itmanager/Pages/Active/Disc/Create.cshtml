@@ -1,0 +1,34 @@
+﻿@page "{id:int}"
+@using itmanager.Class
+@using System.IO
+
+@model itmanager.Pages.Active.Disc.CreateModel
+
+@{
+    ViewData["Title"] = "Creación de Discos";
+}
+<partial name="_Breadcrumb"/>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="item">
+                <label asp-for="Disco.DdCapacidad" class="control-label">Capacidad</label>
+                <input asp-for="Disco.DdCapacidad" class="form-control" />
+                <span asp-validation-for="Disco.DdCapacidad" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="Disco.TddId" class="control-label">Tipo de Disco</label>
+                <select asp-for="Disco.TddId" class="form-control" asp-items="ViewBag.TddId"></select>
+                <span asp-validation-for="Disco.TddId" class="text-danger"></span>
+            </div>
+            <div class="item-5">
+                <input type="submit" value="Crear" class="btn btn-primary" /> | 
+                <a class="btn btn-warning" asp-page="Index">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+

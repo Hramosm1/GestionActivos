@@ -1,0 +1,59 @@
+﻿@page
+@using itmanager.Class
+@using System.IO
+@model itmanager.Pages.ProcessorType.IndexModel
+
+@{
+    ViewData["Module"] = "Tipo de Procesador";
+    ViewData["Title"] = "Listado de Tipos de Procesador";
+}
+
+<partial name="_Breadcrumb"/>
+<p style="margin-top:10px"><a asp-page="Create" class="btn btnew btn-warning">Crear nuevo</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th width="100%">
+                            Nombre
+                        </th>
+                        <th>
+                            Imagen
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.TprTipoProcesador) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TprNombre)
+                        </td>
+
+            @{
+                BreadcrumbInfo b = (BreadcrumbInfo)ViewData["Breadcrumb"];
+                AppConfig appConfig = b.Config;
+
+                string path = UtilitiesHandler.ImgRoute(appConfig.ImagePathTypeProcessor + item.TprImagen);
+                string noimg = UtilitiesHandler.ImgRoute(appConfig.ImagePathNoImg);
+            }
+
+                        <td>
+                            <img id="imgprofile" src="@path" onerror="this.onerror=null;this.src='@noimg';"/>
+                        </td>
+                        <td nowrap>
+                              <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.TprId">Editar</a>
+                            | <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.TprId">Detalle</a>
+                            | <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.TprId">Borrar</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />

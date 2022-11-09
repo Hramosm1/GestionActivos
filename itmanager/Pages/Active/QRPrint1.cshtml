@@ -1,0 +1,22 @@
+﻿@page "{qrcode}"
+@using itmanager.Class
+@using System.IO
+@model itmanager.Pages.Active.QRPrint1Model
+
+@{
+    ViewData["Module"] = "Activos";
+    ViewData["Title"] = "Generación de QRCode para Activo";
+
+    BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+    AppConfig appConfig = Breadcrumb.Config;
+}
+
+<partial name="_Breadcrumb"/>
+
+<!DOCTYPE html>
+
+<div class="container">
+    <img src="/@Model.QRCodeIdentifier" width="150" height="150" />
+</div>
+
+

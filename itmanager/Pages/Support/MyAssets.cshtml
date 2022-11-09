@@ -1,0 +1,46 @@
+﻿@page
+@model itmanager.Pages.Support.MyAssetsModel
+
+@{
+    ViewData["SelectID"] = "";
+    ViewData["Select"] = "";
+    ViewData["Title"] = "Asignación de Activos a Soporte";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th width="100%">
+                            Nombre
+                        </th>
+                        <th>
+                            Login
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.UsuUsuarios) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UsuNombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UsuLogin)
+                        </td>
+                        <td nowrap>
+                              <a class="btn btn-primary" asp-page="./Actives" asp-route-id="@item.UsuId">Ver activos</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+      </div>
+    </div>
+</div>

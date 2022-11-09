@@ -1,0 +1,54 @@
+﻿@page
+@model itmanager.Pages.Inventory.IndexModel
+
+@{
+    ViewData["Module"] = "Inventario";
+    ViewData["Title"] = "Listado de Inventarios";
+}
+
+<partial name="_Breadcrumb"/>
+<p style="margin-top:10px"><a asp-page="Create" class="btn btnew btn-warning">Crear nuevo</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+             <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                       <th width="100%">Nombre</th>
+                        <th>Fecha Creación</th>
+                        <th>Fecha Inicial</th>
+                        <th>Fecha Final</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.InvInventario) {
+                    <tr>
+                        <td>
+                            <p class="pgridt">@item.InvNombre</p>
+                            <p class="pgridd">@item.InvDate</p>
+                        </td>
+                        <td nowrap>
+                            @Html.DisplayFor(modelItem => item.InvDate)
+                        </td>
+                        <td nowrap>
+                            @Html.DisplayFor(modelItem => item.InvInicio)
+                        </td>
+                        <td nowrap>
+                            @Html.DisplayFor(modelItem => item.InvFin)
+                        </td> 
+                        <td nowrap>
+                              <a class="btn btn-primary" href="/Inventory/Stock/List/@item.InvId">Ver Inventario</a>
+                            | <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.InvId">Editar</a>
+                            | <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.InvId">Borrar</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

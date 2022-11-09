@@ -1,0 +1,46 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Inventory.EditModel
+
+@{
+    ViewData["Module"] = "Inventario";
+    ViewData["Title"] = "Edición de Inventario";
+}
+
+<partial name="_Breadcrumb"/>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InvInventario.InvId" />
+            <div class="item item-4">
+                <label asp-for="InvInventario.InvNombre" class="control-label">Nombre de Inventario</label>
+                <input asp-for="InvInventario.InvNombre" class="form-control" />
+                <span asp-validation-for="InvInventario.InvNombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvInventario.InvDate" class="control-label">Fecha de Creación</label>
+                <input asp-for="InvInventario.InvDate" class="form-control" />
+                <span asp-validation-for="InvInventario.InvDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvInventario.InvInicio" class="control-label">Fecha de Inicio</label>
+                <input asp-for="InvInventario.InvInicio" class="form-control" />
+                <span asp-validation-for="InvInventario.InvInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvInventario.InvFin" class="control-label">Fecha de Fin</label>
+                <input asp-for="InvInventario.InvFin" class="form-control" />
+                <span asp-validation-for="InvInventario.InvFin" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-primary" /> |
+                    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+<br />

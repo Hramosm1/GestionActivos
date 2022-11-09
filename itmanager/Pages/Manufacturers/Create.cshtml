@@ -1,0 +1,27 @@
+﻿@page
+@model itmanager.Pages.Manufacturers.CreateModel
+
+@{
+    ViewData["Module"] = "Fabricantes";
+    ViewData["Title"] = "Creación de Fabricantes";
+}
+<partial name="_Breadcrumb"/>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="item item-4">
+                <label asp-for="TfaTipoFabricante.TfaNombre" class="control-label">Nombre</label>
+                <input asp-for="TfaTipoFabricante.TfaNombre" class="form-control" required />
+                <span asp-validation-for="TfaTipoFabricante.TfaNombre" class="text-danger"></span>
+            </div>
+            <div class="item item-5" nowrap>
+                <input type="submit" value="Crear" class="btn btn-primary" /> | 
+                <a class="btn btn-warning" asp-page="Index">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+

@@ -1,0 +1,30 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Manufacturers.DeleteModel
+
+@{
+    ViewData["Module"] = "Fabricantes";
+    ViewData["Title"] = "Borrado de Fabricantes";
+}
+
+<partial name="_Breadcrumb"/>
+
+<h3>Quieres eliminar este registro?</h3>
+<div>
+    <h4><strong>Fabricante ID: @Html.DisplayFor(model => model.TfaTipoFabricante.TfaId)</strong></h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TfaTipoFabricante.TfaNombre)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="TfaTipoFabricante.TfaId" />
+        <input type="submit" value="Borrar" class="btn btn-danger" /> |
+        <a asp-page="./Index" class="btn btn-warning">Volver a la lista</a>
+    </form>
+</div>
+<br />

@@ -1,0 +1,53 @@
+﻿@page "{id:int}/{dt:int}"
+@model itmanager.Pages.Active.Hardware.DeleteModel
+
+@{
+    ViewData["Module"] = "Hardware";
+    ViewData["Title"] = "Borrado de Hardware";
+}
+
+<h3>Quieres eliminar este registro?</h3>
+<div>
+    <h4><strong>Hardware ID: @Html.DisplayFor(model => model.HwHardwareSpec.HwId)</strong></h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+           Modelo de Procesador
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HwHardwareSpec.HwModeloproc)
+        </dd>
+        <dt class="col-sm-2">
+           Generación del Procesador
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HwHardwareSpec.HwGeneracionproc)
+        </dd>
+        <dt class="col-sm-2">
+            Memoria
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HwHardwareSpec.HwMemoria)
+        </dd>
+        <dt class="col-sm-2">
+            Activo
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HwHardwareSpec.Atc.ActId)
+        </dd>
+        <dt class="col-sm-2">
+            Tipo de Procesador
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HwHardwareSpec.Tpr.TprId)
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="HwHardwareSpec.HwId" />
+        <input type="submit" value="Borrar" class="btn btn-danger" /> |
+        <a asp-page="./Index" class="btn btn-warning" asp-route-id="@RouteData.Values["id"]">Volver a la lista</a>
+    </form>
+
+</div>
+

@@ -1,0 +1,45 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Roles.EditModel
+
+@{
+    ViewData["Module"] = "Roles";
+    ViewData["Title"] = "Edición de Rol";
+}
+
+<partial name="_Breadcrumb"/>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RolRole.RolId" />
+            <div class="item item-4">
+                <label asp-for="RolRole.RolNombre" class="control-label">Nombre</label>
+                <input asp-for="RolRole.RolNombre" class="form-control" />
+                <span asp-validation-for="RolRole.RolNombre" class="text-danger"></span>
+            </div>
+            <div class="item item-4">
+                <label asp-for="RolRole.RolDescripcion" class="control-label">Descripción</label>
+                <input asp-for="RolRole.RolDescripcion" class="form-control" />
+                <span asp-validation-for="RolRole.RolDescripcion" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="RolRole.RolBloqueado" class="control-label">Bloqueado</label>
+                <input asp-for="RolRole.RolBloqueado" class="form-control" />
+                <span asp-validation-for="RolRole.RolBloqueado" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-primary" /> |
+                    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,69 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Options.EditModel
+
+@{
+    ViewData["Module"] = "Opciones";
+    ViewData["Title"] = "Edición de Opción";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="OpcOpcion.OpcId" />
+            <div class="item item-4">
+                <label asp-for="OpcOpcion.OpcNombre" class="control-label">Nombre</label>
+                <input asp-for="OpcOpcion.OpcNombre" class="form-control" />
+                <span asp-validation-for="OpcOpcion.OpcNombre" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="OpcOpcion.OpcNombreModulo" class="control-label">Modulo</label>
+                <input asp-for="OpcOpcion.OpcNombreModulo" class="form-control" />
+                <span asp-validation-for="OpcOpcion.OpcNombreModulo" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="OpcOpcion.OpcNombreObject" class="control-label">Objeto</label>
+                <input asp-for="OpcOpcion.OpcNombreObject" class="form-control" />
+                <span asp-validation-for="OpcOpcion.OpcNombreObject" class="text-danger"></span>
+            </div>
+            <div class="item-4">
+                <label asp-for="OpcOpcion.OpcDescripcion" class="control-label">Descripción</label>
+                <input asp-for="OpcOpcion.OpcDescripcion" class="form-control" />
+                <span asp-validation-for="OpcOpcion.OpcDescripcion" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="OpcOpcion.OpcLogo" class="control-label">Logo</label>
+                <input asp-for="OpcOpcion.OpcLogo" class="form-control" />
+                <span asp-validation-for="OpcOpcion.OpcLogo" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="OpcOpcion.OpcOrden" class="control-label">Orden</label>
+                <input asp-for="OpcOpcion.OpcOrden" class="form-control" />
+                <span asp-validation-for="OpcOpcion.OpcOrden" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="OpcOpcion.OpcPadre" class="control-label">Padre</label>
+                <input asp-for="OpcOpcion.OpcPadre" class="form-control" />
+                <span asp-validation-for="OpcOpcion.OpcPadre" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="OpcOpcion.OpcDeshabilitadoSistema" class="control-label">Deshabilitado</label>
+                <input asp-for="OpcOpcion.OpcDeshabilitadoSistema" class="form-control" />
+                <span asp-validation-for="OpcOpcion.OpcDeshabilitadoSistema" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-primary" /> |
+                    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

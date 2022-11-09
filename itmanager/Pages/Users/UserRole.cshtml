@@ -1,0 +1,61 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Users.UserRoleModel
+
+@{
+    ViewData["Module"] = "Rol de Usuario";
+    ViewData["Title"] = "Listado de Roles";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <form method="post" name="formsave">
+            <table id="datagridopc" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th style="width:100%">
+                           Nombre
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                @foreach (var item in Model.RolRoles) {
+
+                    string c = "";
+                    foreach (Models.UroUsuarioRol opc in Model.UsuRol)
+                    {
+                        if (item.RolId == opc.RolId)
+                            c = "checked";
+                    }
+
+                    <tr>
+                        <td>
+                            <b> @Html.DisplayFor(modelItem => item.RolId) </b>
+                        </td>
+                        <td nowrap>
+                            <b> @Html.DisplayFor(modelItem => item.RolNombre) </b>
+                        </td>
+                        <td nowrap>
+                            <input type="radio" name="role" value="@item.RolId" @c>
+                        </td>
+                    </tr>    
+
+                }
+               
+                <button type="submit" class="btn btn-primary" value="Guardar Cambios" asp-page-handler="save">Guardar Cambios</button>
+                  
+                </tbody>
+            </table>
+             </form>
+        </div>
+    </div>
+</div>
+
+

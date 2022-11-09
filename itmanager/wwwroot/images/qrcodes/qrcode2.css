@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Muli', sans-serif;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	min-height: 100vh;
+	margin: 0;
+}
+
+.courses-container {
+}
+
+.course {
+	background-color: #fff;
+	border-radius: 10px;
+	display: flex;
+	max-width: 100%;
+	margin: 0px;
+	overflow: hidden;
+	width: 1000px;
+}
+
+.course h6 {
+	font-size: 30px;
+	margin-left: 120px;
+	margin-bottom: 1px;
+	margin-top: 1px;
+	letter-spacing: -2px;
+	text-transform: uppercase;
+}
+
+.course-preview {
+	color: #fff;
+	padding: 0px;
+	max-width: 300px;
+}
+
+.course-preview a {
+	color: #fff;
+	display: inline-block;
+	font-size: 12px;
+	opacity: 0.6;
+	margin-top: 0px;
+	text-decoration: none;
+}
+
+.course-info {
+	padding: 2px;
+	position: relative;
+	width: 100%;
+}
+
+.course-img {
+	margin-left: 120px;
+	margin-bottom: 1px;
+	margin-top: 18px;
+}

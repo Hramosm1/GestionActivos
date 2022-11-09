@@ -1,0 +1,26 @@
+﻿@using itmanager.Models;
+@using itmanager.Class;
+
+@{
+    ActActivo act = (ActActivo)ViewData["Activo"];
+    AppConfig appConfig = (AppConfig)ViewData["Config"];
+    string pathImg = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + act.ActImagen1, TypeRouteImg.ReadSep);
+}
+
+<div class="parent">
+    <div class="div3"><img src="@pathImg" id="imgprofile" /> </div>
+    <div class="div4"><h2>Activo: @act.ActModelo</h2> </div>
+    <div class="div5"><h3>Serial: @act.ActSerie</h3></div>
+</div>
+
+<div class="row wrapper border-bottom white-bg page-heading boxdetail">
+    <div class="col-lg-10">
+        <img src="@pathImg" id="imgprofile" />
+        <h2>Activo: @act.ActModelo</h2>
+        <h3>Serial: @act.ActSerie</h3>
+    </div>
+</div>
+
+
+
+

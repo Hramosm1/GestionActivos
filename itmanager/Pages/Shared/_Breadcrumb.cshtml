@@ -1,0 +1,174 @@
+﻿@using itmanager.Class
+
+@{
+    // ViewContext.ActionDescriptor.DisplayName
+
+}
+
+@*<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+    <h2>@ViewData["Title"]</h2>
+    <ol class="breadcrumb">
+
+    @{
+    Uri uriAddress1 = new Uri("http://localhost" + ViewContext.ActionDescriptor.DisplayName);
+
+    if (uriAddress1 != null)
+    {
+    string route = "";
+    string view = "";
+    string before = "";
+
+    for(int i=0;i < uriAddress1.Segments.Length;i++) {
+
+    bool active = false;
+
+    switch (uriAddress1.Segments[i]) {
+    case "/": route = "Dashboard";
+    view = "Inicio";
+    break;
+
+    case "Index": view = "Listado de " + before;
+    route += "";
+    break;
+
+    default:
+    if (route == "Dashboard")
+    route = "";
+
+    route += uriAddress1.Segments[i];
+    view = uriAddress1.Segments[i].Replace("/", "");
+    break;
+    }
+
+    before = view;
+
+    if (i == uriAddress1.Segments.Length - 1) {
+    active = true;  
+    }
+
+    string routeview = "/" + route;
+
+    if (@active)
+    {
+    <li class="breadcrumb-item active">
+    <strong>@view</strong>
+    </li>
+
+    } else
+    {
+    <li class="breadcrumb-item">
+    <a href="@routeview">@view</a>
+    </li>                           
+    }
+
+    }
+    }
+    }
+
+    </ol>
+    </div>
+    </div>*@
+
+@{
+    string bImg = "";
+    string bID = "";
+    string bName = "";
+
+
+    if (ViewData["Breadcrumb"] != null)
+    {
+
+        BreadcrumbInfo breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+
+        if (breadcrumb.SelectID != null && breadcrumb.SelectID.Length > 0)
+            bID = "IDENTIFICADOR:" + breadcrumb.SelectID;
+
+        bImg = breadcrumb.SelectImg;
+        bName = breadcrumb.SelectName;
+    }
+}
+
+<div class="courses-container">
+	<div class="course">
+        <div class="course-img">
+            <img id="imgbread" src="@bImg"/>
+        </div>
+		<div class="course-preview">
+			<h6>@bID</h6>
+			<h2>@bName</h2>
+			<!-- <a href="/Dashboard">Ir al dashboard<i class="fa-regular fa-square-arrow-left"></i></a> -->
+		</div>
+		<div class="course-info">
+			<h6>NAVEGACIÓN</h6>
+			<h2>@ViewData["Title"]</h2>
+			
+            <ol class="breadcrumb">
+
+    @{
+
+                Uri uriAddress1 = new Uri("http://localhost" + ViewContext.ActionDescriptor.DisplayName);
+
+                if (uriAddress1 != null)
+                {
+                    string route = "";
+                    string view = "";
+                    string before = "";
+
+                    for(int i=0;i < uriAddress1.Segments.Length;i++) {
+
+                        bool active = false;
+
+                        switch (uriAddress1.Segments[i]) {
+                            case "/": route = "Dashboard";
+                                view = "Inicio";
+                                break;
+
+                            case "Index": view = "Listado de " + before;
+                                route += "";
+                                break;
+
+                            default:
+                                if (route == "Dashboard")
+                                    route = "";
+
+                                route += uriAddress1.Segments[i];
+                                view = uriAddress1.Segments[i].Replace("/", "");
+                                break;
+                        }
+
+                        before = view;
+
+                        if (i == uriAddress1.Segments.Length - 1) {
+                            active = true;  
+                        }
+
+                        string routeview = "/" + route;
+
+                        if (@active)
+                        {
+                           <li class="breadcrumb-item active">
+                                <strong>@view</strong>
+                            </li>
+
+                        } else
+                        {
+                            <li class="breadcrumb-item">
+                                <a href="@routeview">@view</a>
+                            </li>                           
+                        }
+
+                }
+            }
+}
+
+        </ol>
+
+		</div>
+	</div>
+</div>
+<p style="margin-top:10px"></p>
+
+
+
+

@@ -1,0 +1,264 @@
+﻿@page "{id:int}"
+@using itmanager.Class
+@using System.IO
+@model itmanager.Pages.Management.SpecsModel
+
+@{
+    ViewData["Module"] = "Activos";
+    ViewData["Title"] = "Ficha técnica del Activo";
+
+    BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+    AppConfig appConfig = Breadcrumb.Config;
+
+    string pathQ = UtilitiesHandler.ImgRoute(appConfig.ImagePathQRCode + Model.ActActivo.ActUid + appConfig.ImageQRCodeExt, TypeRouteImg.ReadSep);
+    string path1 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives +  Model.ActActivo.ActImagen1, TypeRouteImg.ReadSep);
+    string path2 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives +  Model.ActActivo.ActImagen2, TypeRouteImg.ReadSep);
+    string noimg = UtilitiesHandler.ImgRoute(appConfig.ImagePathNoImg); 
+}
+
+<script src="/js/site.js"></script>
+<script src="/js/plugins/slick/slick.min.js"></script>
+
+<partial name="_Breadcrumb"/>
+
+<script>
+	function changeImg(src) {
+		if(src.length > 0)
+			$('#gallery').attr("src", src);
+	}
+</script>
+
+<div class="" style="background-color:white;padding:20px;min-width:0px">
+
+	<div class="row">
+        <div class="col-lg-12">
+
+            <div class="product-detail">
+                <div class="">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="product-images">
+                                <div>
+                                    <div class="image-imitation" style="padding: 0px">
+                                       <img id="gallery" alt="" class="img-thumbnail p-0 border-0" src="@path1" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+
+                            <h2 class="font-bold m-b-xs">
+                                @Html.DisplayFor(model => model.ActActivo.ActModelo)
+                            </h2>
+                            <small>Many desktop publishing packages and web page editors now.</small>
+                            <div class="m-t-md">
+								<img alt="" class="" style="max-height:150px;max-width:200px;height:auto;width:auto;margin-right:10px;" onclick="changeImg(this.src)" src="@path1" />
+								<img alt="" class="" style="max-height:150px;max-width:200px;height:auto;width:auto;margin-right:10px;" onclick="changeImg(this.src)" src="@path2" />
+                            </div>
+                            <hr>
+                            <div class="m-t-md">
+                                <h2 class="product-main-price">@Html.DisplayFor(model => model.ActActivo.Tac.TacNombre) <small class="text-muted">Categoria</small> </h2>
+                            </div>
+                            <div class="small text-muted">
+								@Html.DisplayFor(model => model.ActActivo.ActObservaciones)
+                            </div>
+							<br>
+							@{
+								 string css = UtilitiesHandler.StateCSS(Model.ActActivo.ActEstado);
+							}
+							<div class="row">
+								<div class="col-lg-6">
+									<div class=" ">
+										<div class="">
+											<h2>Caracteristicas</h2>
+											<small>Identificadores del activo</small>
+											<ul class="todo-list m-t small-list">
+												<li>
+													<b>Marca:</b> 
+													<span class="m-l-xs"><a href="#">@Html.DisplayFor(model => model.ActActivo.Tfa.TfaNombre)</a></span>
+												</li>
+												<li>
+													<b>Serie:</b> 
+													<span class="m-l-xs">@Html.DisplayFor(model => model.ActActivo.ActSerie)</span>
+												</li>
+												<li>
+													<b>Licencia:</b> 
+													<span class="m-l-xs">@Html.DisplayFor(model => model.ActActivo.ActLicencia)</span>
+												</li>
+												<li>
+													<b>Identificador:</b> 
+													<span class="m-l-xs">@Html.DisplayFor(model => model.ActActivo.ActId)</span>
+													<small class="label label-primary">Database ID</small>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class=" ">
+										<div class="">
+											<h2>Condiciones</h2>
+											<small>Estado actual del activo</small>
+											<ul class="todo-list m-t small-list">
+												<li>
+													<b>Estado:</b> 
+													<span class="m-l-xs"><span class="badge @css">@Html.DisplayFor(model => model.ActActivo.ActEstado)</span></span>
+												</li>
+												<li>
+													<b>Condición:</b> 
+													<span class="m-l-xs">@Html.DisplayFor(model => model.ActActivo.ActCondicion)</span>
+												</li>
+												<li>
+													<b>Dado de baja:</b> 
+													<span class="m-l-xs">@Html.DisplayFor(model => model.ActActivo.ActInactivo)</span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+                            <hr>
+                            <div>
+                                <div class="btn-group">
+                                    <button onclick="changeImg('@pathQ')" class="btn btn-primary btn-sm">QRCODE-ID: <b>@Html.DisplayFor(model => model.ActActivo.ActUid)</b> </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<div class="row mb-10">
+
+		<div class="col-md-12 mt-4">
+			<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link lead" role="tab" data-toggle="tab" id="ltabReview" onClick="clickTab('tabReview')">Asignaciones</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link lead" role="tab" data-toggle="tab" id="ltabInventory" onClick="clickTab('tabInventory')">Inventario</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link lead" role="tab" data-toggle="tab" id="ltabSpecification" onClick="clickTab('tabSpecification')">Especificaciones</a>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+
+
+				<div class="tab-pane pt-4" role="tabpanel" id="tabReview">
+					<div class="card">
+						<div class="card-header">Historico del activo</div>
+						<div class="card-body">
+
+							<table class="table table-bordered" cellspacing="0" cellpadding="0">
+								<tbody>	
+									<tr style="background-color: #EEE">
+										<th>Fecha</th>
+										<th>Responsable</th>
+										<th>Estado Anterior</th>
+										<th nowrap>Nuevo Estado</th>
+										<th>Usuario</th>
+										<th>Responsiva</th>
+									</tr>
+@{
+						for(int i = 0; i < Model.Auditoria.Count; i++) {
+
+											<tr>
+												<td nowrap>@Model.Auditoria[i].AudFecha</td>
+												<td nowrap><strong>@Model.Auditoria[i].EmpNombre</strong></td>
+												<td><span class="badge @UtilitiesHandler.StateCSS(Model.Auditoria[i].AudEstadoAnterior)">@Model.Auditoria[i].AudEstadoAnterior</span></td>
+												<td><span class="badge @UtilitiesHandler.StateCSS(Model.Auditoria[i].AudEstadoNuevo)">@Model.Auditoria[i].AudEstadoNuevo</span></td>
+												<td>@Model.Auditoria[i].UsuModificadoPor</td>
+												<td>
+													@if (@Model.Auditoria[i].ConId!=null)
+										{
+														<a href="/Management/Certification/@RouteData.Values["id"]/@Model.Auditoria[i].ConId">@Model.Auditoria[i].ConId</a>																		
+										}
+												</td>
+											</tr>
+						}
+}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane pt-4" role="tabpanel" id="tabInventory">
+					<div class="card">
+						<div class="card-header">Inventarios</div>
+						<div class="card-body">
+
+							<table class="table table-bordered" cellspacing="0" cellpadding="0">
+								<tbody>	
+									<tr style="background-color: #EEE">
+										<th>Fecha</th>
+										<th>Estado</th>
+										<th>Comentarios</th>
+										<th>Usuario Capturo</th>
+										<th>Inventario</th>
+									</tr>
+@{
+						for(int i = 0; i < Model.Inventario.Count; i++) {
+
+											<tr>
+												<td nowrap>@Model.Inventario[i].DinFecha</td>
+												<td><span class="badge @UtilitiesHandler.StateCSS(Model.Inventario[i].DinEstado)">@Model.Inventario[i].DinEstado</span></td>
+												<td>@Model.Inventario[i].DinComentarios</td>
+												<td nowrap><strong>@Model.Inventario[i].DinUsuario</strong></td>
+												<td>@Model.Inventario[i].Inv.InvNombre</td>
+											</tr>
+						}
+}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane pt-4" role="tabpanel" id="tabSpecification">
+					<div class="card">
+						<div class="card-header">Hardware</div>
+						<div class="card-body">
+
+							<table class="table table-bordered" cellspacing="0" cellpadding="0">
+								<tbody>	
+									<tr style="background-color:#EEE">
+										<th>Modelo de Procesador</th>
+										<th>Generación</th>
+										<th>Tipo de Procesador</th>
+									</tr>
+@*@{
+						for(int i = 0; i < Model.Auditoria.Count; i++) {
+
+								<tr>
+									<td nowrap>@Model.Auditoria[i].AudFecha</td>
+									<td nowrap><img src="@UtilitiesHandler.GetAvatarName(Model.Auditoria[i].EmpNombre, "28")"> <strong>@Model.Auditoria[i].EmpNombre</strong></td>
+									<td><span class="badge @UtilitiesHandler.StateCSS(Model.Auditoria[i].AudEstadoAnterior)">@Model.Auditoria[i].AudEstadoAnterior</span></td>
+									<td><span class="badge @UtilitiesHandler.StateCSS(Model.Auditoria[i].AudEstadoNuevo)">@Model.Auditoria[i].AudEstadoNuevo</span></td>
+									<td>@Model.Auditoria[i].UsuModificadoPor</td>
+									<td>
+										@if (@Model.Auditoria[i].ConId!=null)
+										{
+											<a href="/Management/Certification/@RouteData.Values["id"]/@Model.Auditoria[i].ConId">@Model.Auditoria[i].ConId</a>																		
+										}
+									</td>
+								</tr>
+						}
+}						*@
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+

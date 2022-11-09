@@ -1,0 +1,54 @@
+﻿@page "{id:int}"
+@using itmanager.Class
+@using System.IO
+@model itmanager.Pages.Active.Hardware.IndexModel
+
+@{
+    ViewData["Title"] = "Listado de Hardware";
+    BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+}
+
+<partial name="_Breadcrumb"/>
+
+<p class="btnNewSub"><a asp-page="/Active/Hardware/Create" asp-route-id="@Breadcrumb.SelectID" class="btn btnew btn-warning">Crear nuevo elemento de hardware</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+    <thead>
+        <tr>
+            <th width="100%">Modelo de Procesador</th>
+            <th nowrap>Generación de Procesador</th>
+            <th nowrap>Memoria</th>
+            <th nowrap>Tipo de Procesador</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.HwHardwareSpec) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HwModeloproc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HwGeneracionproc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HwMemoria)
+            </td>
+            <td nowrap>
+                @Html.DisplayFor(modelItem => item.Tpr.TprNombre)
+            </td>
+            <td nowrap>
+                  <a class="btn btn-primary" href="./Edit/@RouteData.Values["id"]/@item.HwId">Edit</a>
+                | <a class="btn btn-danger" href="./Delete/@RouteData.Values["id"]/@item.HwId">Delete</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+</div>
+</div>

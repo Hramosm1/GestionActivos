@@ -1,0 +1,31 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.DiscType.EditModel
+
+@{
+    ViewData["Module"] = "Tipos de Disco";
+    ViewData["Title"] = "Edición de Tipos de Disco";
+}
+
+<partial name="_Breadcrumb"/>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TddTipoDisco.TddId" />
+            <div class="item item-4">
+                <label asp-for="TddTipoDisco.TddNombre" class="control-label"></label>
+                <input asp-for="TddTipoDisco.TddNombre" class="form-control" />
+                <span asp-validation-for="TddTipoDisco.TddNombre" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Save" class="btn btn-primary" /> |
+                    <a class="btn btn-warning" asp-page="./Index">Back to List</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+<br />

@@ -1,0 +1,42 @@
+﻿@page
+@model itmanager.Pages.DiscType.IndexModel
+
+@{
+    ViewData["Module"] = "Tipos de Disco";
+    ViewData["Title"] = "Listado de Tipos de Disco";
+}
+
+<partial name="_Breadcrumb"/>
+<p style="margin-top:10px"><a asp-page="Create" class="btn btnew btn-warning">Crear nuevo</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th width="100%">
+                            @Html.DisplayNameFor(model => model.TddTipoDisco[0].TddNombre)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.TddTipoDisco) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TddNombre)
+                        </td>
+                        <td nowrap>
+                              <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.TddId">Edit</a>
+                            | <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.TddId">Details</a>
+                            | <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.TddId">Delete</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />

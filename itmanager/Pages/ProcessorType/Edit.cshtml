@@ -1,0 +1,52 @@
+﻿@page "{id:int}"
+
+@using itmanager.Class
+@using System.IO
+
+@model itmanager.Pages.ProcessorType.EditModel
+
+@{
+    ViewData["Module"] = "Tipo de Procesador";
+    ViewData["Title"] = "Edición de Tipo de Procesador";
+}
+
+<partial name="_Breadcrumb"/>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox" enctype = "multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TprTipoProcesador.TprId" />
+            <div class="item item-4">
+                <label asp-for="TprTipoProcesador.TprNombre" class="control-label">Nombre</label>
+                <input asp-for="TprTipoProcesador.TprNombre" class="form-control" />
+                <span asp-validation-for="TprTipoProcesador.TprNombre" class="text-danger"></span>
+            </div>
+
+            @{
+                BreadcrumbInfo b = (BreadcrumbInfo)ViewData["Breadcrumb"];
+                AppConfig appConfig = b.Config;
+
+                string path = UtilitiesHandler.ImgRoute(appConfig.ImagePathTypeProcessor + Model.TprTipoProcesador.TprImagen, TypeRouteImg.ReadSep);
+                string noimg = UtilitiesHandler.ImgRoute(appConfig.ImagePathNoImg);
+            }
+
+            <input type="hidden" asp-for="imagen1" value="@Model.TprTipoProcesador.TprImagen" />
+            <div class="item item-2">
+                <img id="imgprofile" src="@path" />
+                <input asp-page-handler="Upload" asp-for="FileUpload.FormFile" class="form-control" type="file" />
+                <span asp-validation-for="FileUpload.FormFile" class="text-danger"></span>
+            </div>
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-primary" /> |
+                    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+

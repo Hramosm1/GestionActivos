@@ -1,0 +1,146 @@
+﻿@page "{id:int}/{uid:guid}" 
+@using System.Drawing
+@using itmanager.Class
+@using System.IO
+@model itmanager.Pages.Management.CertificationModel
+
+@{
+    ViewData["Title"] = "Certificado de Responsabilidad";
+    BreadcrumbInfo b = (BreadcrumbInfo)ViewData["Breadcrumb"];
+    string bName = b.SelectName;
+}
+
+<partial name="_Breadcrumb"/>
+ 
+    <input type='button' class="btn btn-warning" value='Imprimir Responsiva' onclick='myApp.printDiv()' />
+    <div style="margin-top:10px" class="modal-content" id="dvContent">
+
+<style>
+    .modal-header {
+        font-size:20px;
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    .display {
+        font-size:14px;
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+</style>
+
+
+      <div class="modal-header">
+        <h5 class="modal-title h4" id="">Certificación de Responsabilidad de Activos para <b>@bName</b>, firmado el <b>@Model.OneConfirmacion.ConFecha</b></h5> 
+      </div>
+
+      <div class="">
+              <div class="ibox-content">
+	            <div class="col-lg-12">
+                    <div class="">
+                        <table id="datagridconf" class="display" cellpadding="5" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="border-bottom: 2px solid gray" nowrap width="80%">Modelo</th>
+                                    <th style="border-bottom: 2px solid gray" nowrap>Estado</th>
+                                    <th style="border-bottom: 2px solid gray" nowrap>Img #1</th>
+                                    <th style="border-bottom: 2px solid gray" nowrap>Img #2</th>
+                                    <th style="border-bottom: 2px solid gray" nowrap>Fecha</th>
+                                    <th style="border-bottom: 2px solid gray" nowrap>ModificadoPor</th>
+                                    <th style="border-bottom: 2px solid gray"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        @foreach (var item in Model.OneConfirmacion.AudAuditoria) {
+                                @if (item.AudEstadoNuevo == "asignado")
+                                {
+                                    <tr>
+                                        <td style="border-bottom: 1px solid #E0E0E0">
+                                            <p class="pgridt">@item.AudModelo</p>
+                                            <p class="pgridd">@item.AudSerie</p>
+                                        </td>
+                                        <td align="center" style="border-bottom: 1px solid #E0E0E0">
+                                            <span class="badge @UtilitiesHandler.StateCSS(item.AudEstadoNuevo)">@item.AudEstadoNuevo</span>
+                                        </td>
+                                        @{
+                                            BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+                                            AppConfig appConfig = Breadcrumb.Config;
+
+                                            string path1 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + item.Act.ActImagen1, TypeRouteImg.ReadSep);
+                                            string path2 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + item.Act.ActImagen2, TypeRouteImg.ReadSep);
+                                            string noimg = UtilitiesHandler.ImgRoute(appConfig.ImagePathNoImg, TypeRouteImg.ReadSep);
+                                        }
+                                        <td align="center" style="border-bottom: 1px solid #E0E0E0">
+                                            <img id="imgprofile" width="50px" src="@path1" onerror="this.onerror=null;this.src='@noimg';"/>
+                                        </td>
+                                        <td align="center" style="border-bottom: 1px solid #E0E0E0">
+                                            <img id="imgprofile" width="50px" src="@path2" onerror="this.onerror=null;this.src='@noimg';"/>
+                                        </td>
+                                        <td align="center" style="border-bottom: 1px solid #E0E0E0">
+                                            @item.AudFecha
+                                        </td>
+                                        <td align="center" style="border-bottom: 1px solid #E0E0E0">
+                                            @item.UsuModificadoPor
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                                <tr>
+                                    <td colspan="7" class="conf-activos" style="border-bottom: 1px solid #E0E0E0"><p class="alert alert-success"><b>CLÁUSULA DE COMPROMISO: </b>Como funcionario de la empresa XXXX, recibo los activos y/o inventarios relacionados en la presenta acta y sus anexos los cuales estarán bajo mi responsabilidad, 
+                                         les daré el uso y trato adecuado al desempeño de mis funciones y la destinación prevista para cada uno de ellos. Me comprometo a informar oportunamente al área de activos fijos sobre cualquier desplazamiento, siniestro, reparación, traslado, cambio de responsables, 
+                                         por medio de los formatos respectivos y sobre cualquier situación que ponga en inminente el riesgo los bienes de la empresa.  En caso de lo contrario asumiré el daño o la pérdida de los mismos originados por mi negligencia, mal uso, falta de control o incumplimiento 
+                                         de las políticas establecidas para la conservación y custodia de los mismos. Dado que la omisión de esas disposiciones es considerada como falta grave por el Reglamento Interno de Trabajo, asumo las consecuencias económicas que conlleven el daño o la pérdida de los bienes mencionados.
+                                         Nota: En caso de existir faltantes al momento de hacer la entrega del paz y salvo de los Activos Fijos que están bajo mi responsabilidad, y que firmé en señal de aceptación se adelantarán las disposiciones que dicte el Reglamento Interno de Trabajo</p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                    @{
+                                        if (Model.OneConfirmacion.ConFirma != null) {
+
+                                            byte[] base64 = Convert.FromBase64String(Model.OneConfirmacion.ConFirma.Substring(22));
+                                            Image imgSrc;
+                                            
+                                            using (MemoryStream ms = new MemoryStream(base64))  {
+
+                                                imgSrc = Image.FromStream(ms);
+
+                                                string fileSign = String.Format("{0}.png", Model.OneConfirmacion.ConId.ToString());
+                                                string pathSign = String.Format("{0}{1}", b.Config.ImagePathQRCode, fileSign);
+
+                                                imgSrc.Save(pathSign, System.Drawing.Imaging.ImageFormat.Png);
+                                                string pathImgSrc = UtilitiesHandler.ImgRoute(b.Config.ImagePathQRCode + fileSign, TypeRouteImg.ReadSep);
+ 
+                                                             <img src="@pathImgSrc" width="450px" />
+                                            }
+                                        }
+                                      }
+   
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+      </div>
+
+      
+
+
+<script>
+   var myApp = new function () {
+        this.printDiv = function () {
+            // Store DIV contents in the variable.
+            var div = document.getElementById('dvContent');
+
+            // Create a window object.
+            var win = window.open('', '', 'height=700,width=700'); 
+            win.document.write(div.outerHTML);     
+            win.document.close();
+            win.print();       
+        }
+    }
+</script>

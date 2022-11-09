@@ -1,0 +1,109 @@
+﻿@page
+@using itmanager.Class
+@using System.IO
+@model itmanager.Pages.Management.ActivesListModel
+
+@{
+    ViewData["Title"] = "Listado de Activos";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+@*                        <th>
+                           &nbsp;
+                        </th>*@
+                        <th style="width:80%">Modelo</th>
+                        <th>Serie </th>
+                        <th>Estado</th>
+                        <th nowrap>Imagen </th>
+@*                        <th nowrap>
+                            @Html.DisplayNameFor(model => model.ActActivo[0].ActImagen2)
+                        </th>*@
+                        <th>Tipo de Activo</th>
+                        <th>Fabricante </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.ActActivo) {
+                    <tr>
+            @{
+                BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+                AppConfig appConfig = Breadcrumb.Config;
+
+                string pathQ = UtilitiesHandler.ImgRoute(appConfig.ImagePathQRCode + item.ActUid + appConfig.ImageQRCodeExt, TypeRouteImg.ReadSep);
+                string path1 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + item.ActImagen1, TypeRouteImg.ReadSep);
+                string path2 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + item.ActImagen2, TypeRouteImg.ReadSep);
+                string noimg = UtilitiesHandler.ImgRoute(appConfig.ImagePathNoImg, TypeRouteImg.ReadSep);
+            }
+@*                        <td>
+                            <img id="imgqrcode" src="@pathQ" onerror="this.onerror=null;this.src='@noimg';"/>
+                        </td>
+*@
+                        <td>
+                            <p class="pgridt">@Html.DisplayFor(modelItem => item.ActModelo)</p>
+                            <p class="pgridd">@Html.DisplayFor(modelItem => item.ActObservaciones)</p>
+                            <p class="pgridt activeuid"><span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.ActUid)</span></p>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActSerie)
+                        </td>
+                        <td>
+                                @{
+                                    string css = UtilitiesHandler.StateCSS(item.ActEstado);
+
+                                    string info = "";
+                                    string link = "";
+
+                                    if (item.AceActivoEmpleados.Count>0)
+                                    {
+                                        info = "1: " + item.AceActivoEmpleados.ToList()[0].Emp.EmpNombre;
+                                    }
+
+                                    if (item.AudAuditoria.Count > 0)
+                                    {
+                                        link = item.AudAuditoria.OrderByDescending(x => x.AudFecha).FirstOrDefault().ConId;
+                                    }     
+                                 }
+                                 <span class="badge @css">@Html.DisplayFor(modelItem => item.ActEstado)</span>
+
+                                 @{
+                                    if(link!=null)
+                                        if(link.Length > 0) {
+                                            <br><a href="./Certification/@item.ActId/@link">@info</a>
+                                        }
+                                 }
+                        </td>
+@*                        <td align="center">
+                            @Html.DisplayFor(modelItem => item.ActInactivo)
+                        </td>
+*@                        <td>
+                            <img id="imgprofile" src="@path1" onerror="this.onerror=null;this.src='@noimg';"/>
+                        </td>
+@*                        <td>
+                            <img id="imgprofile" src="@path2" onerror="this.onerror=null;this.src='@noimg';"/>
+                        </td>*@                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tac.TacNombre)
+                        </td>
+                        <td>
+                        
+                        </td>
+                        
+                        <td class="actionbuttons">
+                           <a class="btn btn-primary" asp-page="./Specs" asp-route-id="@item.ActId">Ver ficha</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />

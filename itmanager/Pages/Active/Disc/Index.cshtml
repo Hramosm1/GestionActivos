@@ -1,0 +1,46 @@
+﻿@page "{id:int}"
+@using itmanager.Class
+@using System.IO
+@model itmanager.Pages.Active.Disc.IndexModel
+
+@{
+    ViewData["Title"] = "Listado de Discos";
+    BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+}
+
+<partial name="_Breadcrumb"/>
+
+<p class="btnNewSub"><a asp-page="/Active/Disc/Create" asp-route-id="@Breadcrumb.SelectID" class="btn btnew btn-warning">Crear nuevo disco</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+    <thead>
+        <tr>
+            <th width="100%">Capacidad</th>
+            <th nowrap>Tipo de Disco</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.LstDiscos) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DdCapacidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tdd.TddNombre)
+            </td>
+            <td nowrap>
+                  <a class="btn btn-primary" href="./Edit/@RouteData.Values["id"]/@item.DdId">Edit</a>
+                | <a class="btn btn-danger" href="./Delete/@RouteData.Values["id"]/@item.DdId">Delete</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+</div>
+</div>

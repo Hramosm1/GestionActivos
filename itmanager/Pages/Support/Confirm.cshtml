@@ -1,0 +1,221 @@
+﻿@page "{id:int?}"
+@using itmanager.Class
+@using System.IO
+@model itmanager.Pages.Support.ConfirmModel
+
+@{
+    ViewData["Title"] = "Asignación de Activos";
+    int nroActConfirm = Model.ActActivo.Where(x => x.ActEstado != "soporte").Count();
+}
+
+<partial name="_Breadcrumb"/>
+
+
+
+@{
+    string bImg = "";
+    string bID = "";
+    string bName = "";
+
+    if (ViewData["Breadcrumb"] != null)
+    {
+        BreadcrumbInfo breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+
+        if (breadcrumb.SelectID != null && breadcrumb.SelectID.Length > 0)
+            bID = "IDENTIFICADOR:" + breadcrumb.SelectID;
+
+        bImg = breadcrumb.SelectImg;
+        bName = breadcrumb.SelectName;
+    }
+}
+
+
+<div class="" id="" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
+  <div class="">
+    <div class="">
+      <div class="">
+        <h5 class="modal-title h4" id="exampleModalFullscreenLabel">Confirmación de activos para <b>@bName</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+              <div class="ibox-content">
+	            <div class="col-lg-12">
+                    <div class="">
+                        <table id="datagridconf" class="display">
+                            <thead>
+                                <tr>
+                                    <th width="100%">>
+                                        Modelo
+                                    </th>
+                                    <th>
+                                        Serie
+                                    </th>
+                                    <th>
+                                        Estado
+                                    </th>
+                                    <th>
+                                        Imagen #1
+                                    </th>
+                                    <th>
+                                        Imagen #2
+                                    </th>
+                                    <th nowrap>
+                                        Tipo de Activo
+                                    </th>
+                                    <th>Fabricante</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        @foreach (var item in Model.ActActivo) {
+                                <tr>
+                                    <td>
+                                        <p class="pgridt">@Html.DisplayFor(modelItem => item.ActModelo)</p>
+                                        <p class="pgridd">@Html.DisplayFor(modelItem => item.ActObservaciones)</p>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ActSerie)
+                                    </td>
+                                    <td>
+                                        @if (item.ActEstado == "soporte")
+                                        {
+                                             <span class="badge bg-primary">@Html.DisplayFor(modelItem => item.ActEstado)</span>
+                                        } else 
+                                        {
+                                            <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.ActEstado)</span>
+                                        }
+                                    </td>
+                        @{
+                            BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+                            AppConfig appConfig = Breadcrumb.Config;
+
+                            string path1 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + item.ActImagen1, TypeRouteImg.ReadSep);
+                            string path2 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + item.ActImagen2, TypeRouteImg.ReadSep);
+                            string noimg = UtilitiesHandler.ImgRoute(appConfig.ImagePathNoImg, TypeRouteImg.ReadSep);
+                        }
+                                    <td>
+                                        <img id="imgprofile" src="@path1" onerror="this.onerror=null;this.src='@noimg';"/>
+                                    </td>
+                                    <td>
+                                        <img id="imgprofile" src="@path2" onerror="this.onerror=null;this.src='@noimg';"/>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Tac.TacNombre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Tfa.TfaNombre)
+                                    </td>
+                                </tr>
+                        }
+
+                                <tr>
+                                    <td colspan="7" class="conf-activos"><p class="alert alert-success"><b>CLÁUSULA DE COMPROMISO: </b>Como funcionario de la empresa XXXX, recibo los activos y/o inventarios relacionados en la presenta acta y sus anexos los cuales estarán bajo mi responsabilidad, 
+                                         les daré el uso y trato adecuado al desempeño de mis funciones y la destinación prevista para cada uno de ellos. Me comprometo a informar oportunamente al área de activos fijos sobre cualquier desplazamiento, siniestro, reparación, traslado, cambio de responsables, 
+                                         por medio de los formatos respectivos y sobre cualquier situación que ponga en inminente el riesgo los bienes de la empresa.  En caso de lo contrario asumiré el daño o la pérdida de los mismos originados por mi negligencia, mal uso, falta de control o incumplimiento 
+                                         de las políticas establecidas para la conservación y custodia de los mismos. Dado que la omisión de esas disposiciones es considerada como falta grave por el Reglamento Interno de Trabajo, asumo las consecuencias económicas que conlleven el daño o la pérdida de los bienes mencionados.
+                                         Nota: En caso de existir faltantes al momento de hacer la entrega del paz y salvo de los Activos Fijos que están bajo mi responsabilidad, y que firmé en señal de aceptación se adelantarán las disposiciones que dicte el Reglamento Interno de Trabajo</p>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                
+<div>
+	<div id="content">
+		<div id="signatureparent">
+			<div id="signature"></div>
+		</div>
+		<div id="tools"></div>
+		<div><p></p>
+			<div id="displayarea"></div>
+		</div>
+	</div>
+	<div id="scrollgrabber">
+    
+    </div>
+
+@{ if (nroActConfirm > 0) {
+
+                        <div>
+                             <form method="post" name="formconfirm" onsubmit="return sendData()">
+                                <input type="text" asp-for="OneConfirmacion.ConId" class="form-control" value="1"  style="display:"/>
+                                <input type="text" asp-for="OneConfirmacion.ConFirma" id="signed" class="form-control"  style="display:"/>
+                                <input type="submit" class="btn btn-primary" value="Confirmar activos" asp-page-handler="confirm">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </form>
+                             <button type="button" class="btn btn-secondary" onclick="dataSS()" style="display:">Data</button>
+                        </div>
+    
+    }
+}
+
+</div>
+
+<!-- 
+<script src="/js/plugins/jSignature/libs/jquery.js"></script>
+
+
+JSignature.net 
+<script src="/js/plugins/jSignature/modernizr.js"></script>
+
+-->
+
+<script src="/js/plugins/jSignature/jSignature.js"></script>
+<script src="/js/plugins/jSignature/plugins/jSignature.CompressorBase30.js"></script>
+<script src="/js/plugins/jSignature/plugins/jSignature.CompressorSVG.js"></script>
+<script src="/js/plugins/jSignature/plugins/jSignature.UndoButton.js"></script> 
+<script src="/js/plugins/jSignature/plugins/signhere/jSignature.SignHere.js"></script>
+
+
+<script>
+    function dataSS() {
+        console.log("ENTRO");
+        console.log($("#signature"));
+
+        $("#signature").jSignature({height:300,color:"#000",lineWidth:4,UndoButton:true});  
+}
+    function sendData() { 
+
+        alert(1);
+
+        if( $("#signature").jSignature('getData', 'native').length == 0){
+            alert("Por favor firme primero");
+            return false;
+        }
+
+        var sig=$("#signature"); 
+        $('#signed').val(sig.jSignature('getData'));
+        return true;
+    }
+
+    $(document).ready(function(){  
+
+        console.log("ENTRO");
+        console.log($("#signature"));
+
+        $("#signature").jSignature({height:300,color:"#000",lineWidth:4,UndoButton:true});  
+    })  
+
+    //$(document).ready(function() {
+    //    $("#signature").height(300);
+    //    $("#signature").height(250);
+	   // var sigdiv = $("#signature").jSignature({'UndoButton':true})
+    //});
+</script>
+
+                </div>
+            </div>
+      </div>
+
+      <div class="modal-footer"> 
+      </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,27 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.ActiveType.DetailsModel
+
+@{
+    ViewData["Module"] = "Tipos de Activo";
+    ViewData["Title"] = "Detalle de Tipos de Activo";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div>
+    <h4><strong>Tipo de Activo ID: @Html.DisplayFor(model => model.TacTipoActivo.TacId)</strong></h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre para tipo de activo
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TacTipoActivo.TacNombre)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.TacTipoActivo.TacId">Editar</a> |
+    <a class="btn btn-warning" asp-page="./Index">VOlver a la lista</a>
+</div>
+<br />

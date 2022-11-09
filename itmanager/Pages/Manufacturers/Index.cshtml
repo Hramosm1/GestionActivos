@@ -1,0 +1,42 @@
+﻿@page
+@model itmanager.Pages.Manufacturers.IndexModel
+
+@{
+    ViewData["Module"] = "Fabricantes";
+    ViewData["Title"] = "Listado de Fabricantes";
+}
+
+<partial name="_Breadcrumb"/>
+<p style="margin-top:10px"><a asp-page="Create" class="btn btnew btn-warning">Crear nuevo</a></p>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+        <div class="">
+            <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th width="100%">
+                            Nombre
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.TfaTipoFabricante) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TfaNombre)
+                        </td>
+                        <td nowrap>
+                              <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@item.TfaId">Editar</a>
+                            | <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.TfaId">Detalle</a>
+                            | <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.TfaId">Borrar</a>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />

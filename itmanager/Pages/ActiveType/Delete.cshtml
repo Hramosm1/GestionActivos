@@ -1,0 +1,31 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.ActiveType.DeleteModel
+
+@{
+    ViewData["Module"] = "Tipos de Activo";
+    ViewData["Title"] = "Borrado de Tipos de Activo";
+}
+
+<partial name="_Breadcrumb"/>
+
+<h3>Quieres eliminar este registro?</h3>
+<div>
+    <h4><strong>Tipo de Activo ID: @Html.DisplayFor(model => model.TacTipoActivo.TacId)</strong></h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TacTipoActivo.TacNombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TacTipoActivo.TacNombre)
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="TacTipoActivo.TacId" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-page="./Index" class="btn btn-warning">Volver a la lista</a>
+    </form>
+
+</div>
+<br />

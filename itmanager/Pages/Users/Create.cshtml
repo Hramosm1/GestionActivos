@@ -1,0 +1,65 @@
+﻿@page 
+@model itmanager.Pages.Users.CreateModel
+
+@{
+    ViewData["Module"] = "Usuarios";
+    ViewData["Title"] = "Creación de Usuarios";
+}
+<partial name="_Breadcrumb"/>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="item item-4">
+                <label asp-for="UsuUsuario.UsuNombre" class="control-label">Nombre</label>
+                <input asp-for="UsuUsuario.UsuNombre" class="form-control" />
+                <span asp-validation-for="UsuUsuario.UsuNombre" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="UsuUsuario.UsuLogin" class="control-label">Login</label>
+                <input asp-for="UsuUsuario.UsuLogin" class="form-control" />
+                <span asp-validation-for="UsuUsuario.UsuLogin" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="UsuUsuario.UsuClave" class="control-label">Clave</label>
+                <input asp-for="UsuUsuario.UsuClave" class="form-control" />
+                <span asp-validation-for="UsuUsuario.UsuClave" class="text-danger"></span>
+            </div>
+            <div class="item item-2">
+                <label asp-for="UsuUsuario.UsuFechaFinal" class="control-label">Fecha Final</label>
+                <input asp-for="UsuUsuario.UsuFechaFinal" class="form-control" />
+                <span asp-validation-for="UsuUsuario.UsuFechaFinal" class="text-danger"></span>
+            </div>
+            <div class="item form-switch">
+                <label asp-for="UsuUsuario.UsuAdmin" class="form-check-label">Admin</label>
+                <input asp-for="UsuUsuario.UsuAdmin" class="form-check-input" />
+                <span asp-validation-for="UsuUsuario.UsuAdmin" class="text-danger"></span>
+            </div>
+            <div class="item form-switch">
+                <label asp-for="UsuUsuario.UsuBloqueado" class="form-check-label">Bloqueado</label>
+                <input asp-for="UsuUsuario.UsuBloqueado" class="form-check-input" />
+                <span asp-validation-for="UsuUsuario.UsuBloqueado" class="text-danger"></span>
+            </div>
+            <div class="item item-2">
+                <label asp-for="UsuUsuario.UsuImagen" class="control-label">Imagen</label>
+                <img id="imgprofile" style="width:150px;height:150px" src="/images/profile/@Html.DisplayFor(model => model.UsuUsuario.UsuImagen)" onerror="this.onerror=null;this.src='/images/profile/noimg.jpg';"/>
+
+                <select asp-for="UsuUsuario.UsuImagen" onchange="preview(this, 'imgprofile')" class="form-control" asp-items="Model.Files.Select(x => new SelectListItem() { Text = x.ToString() });">
+                    <option value="">Pick one</option>
+                </select>
+                <span asp-validation-for="UsuUsuario.UsuImagen" class="text-danger"></span>
+
+            </div>
+            <div class="item item-5" nowrap>
+                <input type="submit" value="Crear" class="btn btn-primary" /> | 
+                <a class="btn btn-warning" asp-page="Index">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,66 @@
+﻿@page
+@model itmanager.Pages.Inventory.Details.EditModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<h4>DinDetalleInventario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DinDetalleInventario.DinId" />
+            <div class="form-group">
+                <label asp-for="DinDetalleInventario.InvId" class="control-label">Identificador</label>
+                <select asp-for="DinDetalleInventario.InvId" class="form-control" asp-items="ViewBag.InvId"></select>
+                <span asp-validation-for="DinDetalleInventario.InvId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DinDetalleInventario.ActId" class="control-label">Activo</label>
+                <select asp-for="DinDetalleInventario.ActId" class="form-control" asp-items="ViewBag.ActId"></select>
+                <span asp-validation-for="DinDetalleInventario.ActId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DinDetalleInventario.DinFecha" class="control-label">Fecha</label>
+                <input asp-for="DinDetalleInventario.DinFecha" class="form-control" />
+                <span asp-validation-for="DinDetalleInventario.DinFecha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DinDetalleInventario.DinEstado" class="control-label">Estado</label>
+                <input asp-for="DinDetalleInventario.DinEstado" class="form-control" />
+                <span asp-validation-for="DinDetalleInventario.DinEstado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DinDetalleInventario.DinUsuario" class="control-label">Usuario</label>
+                <input asp-for="DinDetalleInventario.DinUsuario" class="form-control" />
+                <span asp-validation-for="DinDetalleInventario.DinUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DinDetalleInventario.DinComentarios" class="control-label">Comentarios</label>
+                <input asp-for="DinDetalleInventario.DinComentarios" class="form-control" />
+                <span asp-validation-for="DinDetalleInventario.DinComentarios" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Volver a la lista</a>
+</div>
+
+</body>
+</html>

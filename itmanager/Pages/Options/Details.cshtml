@@ -1,0 +1,67 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Options.DetailsModel
+
+@{
+    ViewData["Module"] = "Opciones";
+    ViewData["Title"] = "Detalle de Opción";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div>
+    <h4>Opción ID: @Html.DisplayNameFor(model => model.OpcOpcion.OpcId)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OpcOpcion.OpcNombre)
+        </dd>
+        <dt class="col-sm-2">
+            Modulo
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OpcOpcion.OpcNombreModulo)
+        </dd>
+        <dt class="col-sm-2">
+           Descripcion
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OpcOpcion.OpcDescripcion)
+        </dd>
+        <dt class="col-sm-2">
+            Objeto
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OpcOpcion.OpcNombreObject)
+        </dd>
+        <dt class="col-sm-2">
+            Logo
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OpcOpcion.OpcLogo)
+        </dd>
+        <dt class="col-sm-2">
+            Orden
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OpcOpcion.OpcOrden)
+        </dd>
+        <dt class="col-sm-2">
+           Padre
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OpcOpcion.OpcPadre)
+        </dd>
+        <dt class="col-sm-2">
+            Deshabilitado
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OpcOpcion.OpcDeshabilitadoSistema)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.OpcOpcion.OpcId">Editar</a> |
+    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+</div>

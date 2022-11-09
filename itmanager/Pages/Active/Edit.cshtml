@@ -1,0 +1,118 @@
+﻿@page "{id:int}"
+@using itmanager.Class
+@using System.IO
+
+@model itmanager.Pages.Active.EditModel
+
+@{
+    ViewData["Module"] = "Activos";
+    ViewData["Title"] = "Edición de Activos";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox" enctype = "multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ActActivo.ActId" />
+            <div class="item">
+                <label asp-for="ActActivo.ActModelo" class="control-label">Modelo</label>
+                <input asp-for="ActActivo.ActModelo" class="form-control" />
+                <span asp-validation-for="ActActivo.ActModelo" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="ActActivo.ActSerie" class="control-label">Serie</label>
+                <input asp-for="ActActivo.ActSerie" class="form-control" />
+                <span asp-validation-for="ActActivo.ActSerie" class="text-danger"></span>
+            </div>
+            <div class="item item-4">
+                <label asp-for="ActActivo.ActObservaciones" class="control-label">Observaciones</label>
+                <input asp-for="ActActivo.ActObservaciones" class="form-control" />
+                <span asp-validation-for="ActActivo.ActObservaciones" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="ActActivo.ActFechacompra" class="control-label">Fecha de Compra</label>
+                <input asp-for="ActActivo.ActFechacompra" class="form-control" />
+                <span asp-validation-for="ActActivo.ActFechacompra" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="ActActivo.ActNrocompra" class="control-label">Nro. de Compra</label>
+                <input asp-for="ActActivo.ActNrocompra" class="form-control" />
+                <span asp-validation-for="ActActivo.ActNrocompra" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="ActActivo.ActProveedorcompra" class="control-label">Proveedor</label>
+                <input asp-for="ActActivo.ActProveedorcompra" class="form-control" />
+                <span asp-validation-for="ActActivo.ActProveedorcompra" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="ActActivo.TacId" class="control-label">Tipo de Activo</label>
+                <select asp-for="ActActivo.TacId" class="form-control" asp-items="ViewBag.TacId"></select>
+                <span asp-validation-for="ActActivo.TacId" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="ActActivo.TfaId" class="control-label">Fabricante</label>
+                <select asp-for="ActActivo.TfaId" class="form-control" asp-items="ViewBag.TfaId"></select>
+                <span asp-validation-for="ActActivo.TfaId" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="ActActivo.ActCondicion" class="control-label">Condición</label>
+                <select asp-for="ActActivo.ActCondicion" class ="form-control" required>
+                    <option value="usado">Usado</option>
+                    <option value="nuevo">Nuevo</option>
+                </select>
+            </div>
+            <div class="item">
+                <label asp-for="ActActivo.ActLicencia" class="control-label">Licencia</label>
+                <input asp-for="ActActivo.ActLicencia" class="form-control" />
+                <span asp-validation-for="ActActivo.ActLicencia" class="text-danger"></span>
+            </div>
+            <div class="item form-switch">
+                <label asp-for="ActActivo.ActDadodebaja" class="form-check-label">Dado de baja</label>
+                <input asp-for="ActActivo.ActDadodebaja"class="form-check-input" type="checkbox" />
+                <span asp-validation-for="ActActivo.ActDadodebaja" class="text-danger"></span>
+            </div>
+
+            @{
+                BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+                AppConfig appConfig = Breadcrumb.Config;
+                
+                string path1 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + Model.ActActivo.ActImagen1, TypeRouteImg.ReadSep);
+                string path2 = UtilitiesHandler.ImgRoute(appConfig.ImagePathActives + Model.ActActivo.ActImagen2, TypeRouteImg.ReadSep);
+                string noimg = UtilitiesHandler.ImgRoute(appConfig.ImagePathNoImg);
+            }
+
+            <input type="hidden" asp-for="imagen1" value="@Model.ActActivo.ActImagen1" formnovalidate />
+            <input type="hidden" asp-for="imagen2" value="@Model.ActActivo.ActImagen2" formnovalidate />
+            <input type="hidden" asp-for="ActActivo.ActEstado" value="@Model.ActActivo.ActEstado" formnovalidate />
+            <input type="hidden" asp-for="ActActivo.ActUid" value="@Model.ActActivo.ActUid" formnovalidate />
+
+            <div class="item item-2">
+                <img id="imgprofile" src="@path1" onerror="this.onerror=null;this.src='@noimg';"/>
+                <label asp-for="FileUpload1.FormFile" class="control-label"></label>
+                <input asp-page-handler="" asp-for="FileUpload1.FormFile" class="form-control" type="file" formnovalidate />
+                <span asp-validation-for="FileUpload1.FormFile" class="text-danger"></span>
+            </div>
+            <div class="item item-3">
+                <img id="imgprofile" src="@path2" onerror="this.onerror=null;this.src='@noimg';"/>
+                <label asp-for="FileUpload2.FormFile" class="control-label"></label>
+                <input asp-page-handler="" asp-for="FileUpload2.FormFile" class="form-control" type="file" formnovalidate />
+                <span asp-validation-for="FileUpload2.FormFile" class="text-danger"></span>
+            </div>
+
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-primary" /> |
+                    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

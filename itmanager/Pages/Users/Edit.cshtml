@@ -1,0 +1,88 @@
+﻿@page "{id:int}"
+@using itmanager.Class
+@using System.IO
+
+@model itmanager.Pages.Users.EditModel
+
+@{
+    ViewData["Module"] = "Usuarios";
+    ViewData["Title"] = "Edición de Usuarios";
+}
+
+<partial name="_Breadcrumb"/>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UsuUsuario.UsuId" />
+
+            <div class="item item-4">
+                <label asp-for="UsuUsuario.UsuNombre" class="control-label">Nombre</label>
+                <input asp-for="UsuUsuario.UsuNombre" class="form-control" />
+                <span asp-validation-for="UsuUsuario.UsuNombre" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="UsuUsuario.UsuLogin" class="control-label">Login</label>
+                <input asp-for="UsuUsuario.UsuLogin" class="form-control" />
+                <span asp-validation-for="UsuUsuario.UsuLogin" class="text-danger"></span>
+            </div>
+            <div class="item">
+                <label asp-for="UsuUsuario.UsuClave" class="control-label">Clave</label>
+                <input asp-for="UsuUsuario.UsuClave" class="form-control" type="password"/>
+                <span asp-validation-for="UsuUsuario.UsuClave" class="text-danger"></span>
+            </div>
+            <div class="item item-2">
+                <label asp-for="UsuUsuario.UsuFechaFinal" class="control-label">Fecha Final</label>
+                <input asp-for="UsuUsuario.UsuFechaFinal" class="form-control" />
+                <span asp-validation-for="UsuUsuario.UsuFechaFinal" class="text-danger"></span>
+            </div>
+            <div class="item item-2 form-switch">
+                <label asp-for="UsuUsuario.UsuAdmin" class="form-check-label">Admin</label>
+                <input asp-for="UsuUsuario.UsuAdmin" class="form-check-input" type="checkbox" />
+                <span asp-validation-for="UsuUsuario.UsuAdmin" class="text-danger"></span>
+            </div>
+            <div class="item form-switch">
+                <label asp-for="UsuUsuario.UsuBloqueado" class="form-check-label">Bloqueado</label>
+                <input asp-for="UsuUsuario.UsuBloqueado"class="form-check-input" type="checkbox" />
+                <span asp-validation-for="UsuUsuario.UsuBloqueado" class="text-danger"></span>
+            </div>
+            <div class="item form-switch">
+                <label asp-for="UsuUsuario.UsuAsignaActivos" class="form-check-label">Asigna Activos</label>
+                <input asp-for="UsuUsuario.UsuAsignaActivos"class="form-check-input" type="checkbox" />
+                <span asp-validation-for="UsuUsuario.UsuAsignaActivos" class="text-danger"></span>
+            </div>
+
+            @{
+                BreadcrumbInfo Breadcrumb = (BreadcrumbInfo)ViewData["Breadcrumb"];
+                AppConfig appConfig = Breadcrumb.Config;
+
+                string path = UtilitiesHandler.ImgRoute(appConfig.ImagePathUserProfile + Model.UsuUsuario.UsuImagen, TypeRouteImg.ReadSep);
+            }
+
+            <div class="item-2">
+                <label asp-for="UsuUsuario.UsuImagen" class="control-label">Imagen</label>
+                <img style="width:150px;height:150px" id="imgprofile" src="@path" />
+                <select asp-for="UsuUsuario.UsuImagen" onchange="preview(this, 'imgprofile')" class="form-control" asp-items="Model.Files.Select(x => new SelectListItem() { Text = x.ToString() });">
+                    <option value="">Pick one</option>
+                </select>
+                <span asp-validation-for="UsuUsuario.UsuImagen" class="text-danger"></span>
+            </div>
+            
+            <div class="item item-5">
+                <div>
+                    <input type="submit" value="Guardar" class="btn btn-primary" /> |
+                    <a class="btn btn-warning" asp-page="./Index">Volver a la lista</a>
+                </div>               
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

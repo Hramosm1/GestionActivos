@@ -1,0 +1,386 @@
+﻿@page
+@model DashboardModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Login";
+    string msg = Model.Messages.toast();
+
+    int invTotal = (int)Model.InventarioTipo.Sum(a => a.ActTotal);
+    int invAlmacenado = (int)Model.InventarioTipo.Where(e => e.EstGrupo == "almacenado").Sum(a => a.ActTotal);
+    int invPendientes = (int)Model.InventarioTipo.Where(e => e.EstGrupo == "soporte").Sum(a => a.ActTotal);
+    int invToma = (int)Model.InventarioToma.Sum(s => s.Stock);
+
+    double invAlmacenadoP = ((double)invAlmacenado / (double)invTotal) * 100;
+    double invAlmacenadoP2 = Math.Round(invAlmacenadoP, 2);
+
+    double invPendientesP = ((double)invPendientes / (double)invTotal) * 100;
+    double invPendientesP2 = Math.Round(invPendientesP, 2);
+
+    double invTomaP = ((double)invToma / (double)invTotal) * 100;
+    double invTomaP2 = Math.Round(invTomaP, 2);
+
+}
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-success float-right">Sistema</span>
+                    <h5>Nro. de Activos en Inventario</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@invTotal</h1>
+                    <div class="stat-percent font-bold text-success">100% <i class="fa fa-bolt"></i></div>
+                    <small>Inventario Teorico (Sistema)</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-info float-right">Recurrente</span>
+                    <h5>Nro. Activos ultimo inventario</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@invToma</h1>
+                    <div class="stat-percent font-bold text-info">@invTomaP2 % <i class="fa fa-level-up"></i></div>
+                    <small>Inventario Fisico (Captura)</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-info float-right">Diario</span>
+                    <h5>Nro. Activos pendientes/soporte</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@invPendientes</h1>
+                    <div class="stat-percent font-bold text-info">@invPendientesP2 % <i class="fa fa-level-up"></i></div>
+                    <small>En proceso de alistamiento o recibo</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <span class="label label-info float-right">Diario</span>
+                    <h5>Nro. Activos almacenados</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@invAlmacenado</h1>
+                    <div class="stat-percent font-bold text-info">@invAlmacenadoP2 % <i class="fa fa-level-down"></i></div>
+                    <small>Activos en Bodega</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Actividad de entrega</h5>
+                    <div class="float-right">
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <ul class="stat-list">
+                                <li>
+                                    <h2 class="no-margins">@Model.Actividad.Sum(x=>x.Asignaciones)</h2>
+                                    <small><span class="badge" style="background-color:#1ab394">Activos asignados en el periodo</span></small>
+                                    <div class="stat-percent">95% <i class="fa fa-level-up text-navy"></i></div>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 95%;" class="progress-bar"></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h2 class="no-margins ">@Model.Actividad.Sum(x=>x.Retiros)</h2>
+                                    <small><span class="badge" style="background-color:#1C84C6">Activos retirados en el periodo</span></small>
+                                    <div class="stat-percent">97% <i class="fa fa-level-down text-navy"></i></div>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 97%;" class="progress-bar"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Ultimas asignaciones</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="feed-activity-list">
+
+                        @foreach (var item in Model.Asignaciones)
+                        {
+
+                            <div class="feed-element">
+                                <div>
+                                    <small class="float-right text-navy">@item.Tiempo ago</small>
+                                    <strong>@item.EmpNombre</strong>
+                                    <div>@item.TacNombre.ToUpper() [ @item.AudModelo ]<br>S/N: [ @item.AudSerie ]</div>
+                                    <small class="text-muted">@item.AudFecha</small>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Ultimos Retiros</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="feed-activity-list">
+
+                        @foreach (var item in Model.Retiros)
+                        {
+
+                            <div class="feed-element">
+                                <div>
+                                    <small class="float-right text-navy">@item.Tiempo ago</small>
+                                    <strong>@item.EmpNombre</strong>
+                                    <div>@item.TacNombre.ToUpper() [ @item.AudModelo ]<br>S/N: [ @item.AudSerie ]</div>
+                                    <small class="text-muted">@item.AudFecha</small>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Inventario por tipo de activo</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content table-responsive">
+                            <table class="table table-hover no-margins">
+                                <thead>
+                                    <tr>
+                                        <th title="Tipo de Activo">Tipo</th>
+                                        <th title="Ultima Captura">Ult. Captura</th>
+                                        <th align="right" title="Inventario Teorico">Teo</th>
+                                        <th align="right" title="Inventario Fisico">Fis</th>
+                                        <th align="right" title="Diferencia">Dif.</th>
+                                        <th align="right" title="% EFectividad de Invetario">% Efect.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.Conciliacion)
+                                    {
+                                        DateTime d = item.Lastdate != null ? (DateTime)item.Lastdate: DateTime.Now;
+                                        double p = Math.Round(item.Perc, 0);
+
+                                        <tr>
+                                            <td title="Tipo de Activo"><span class="label label-warning">@item.TacNombre</span></td>
+                                            <td title="Ultimo Inventario"><i class="fa fa-clock-o"></i> @d.ToString("yyyy-MM")</td>
+                                            <td title="Inventario Teorico" align="right">@item.Teorico</td>
+                                            <td title="Inventario Fisico" align="right">@item.Fisico</td>
+                                            <td title="Diferencia" align="right">@item.Diff</td>
+                                            <td title="% EFectividad de Invetario" align="right" class="text-danger"> @p % </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Alertas de Inventario</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content table-responsive">
+                            <table class="table table-hover no-margins">
+                                <thead>
+                                    <tr>
+                                        <th title="Tipo de Activo">Tipo</th>
+                                        <th align="right" title="Almacenado en Bodega">Alm</th>
+                                        <th align="right" title="Inventario Minimo">Inv. Min</th>
+                                        <th align="right" title="% Disponible">% Disp.</th>
+                                        <th align="right" title="Alerta de Inventario">Alerta</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.Alertas)
+                                    {
+
+                                        <tr>
+                                            <td><span class="label label-warning">@item.TacNombre</span></td>
+                                            <td align="right">@item.Stock</td>
+                                            <td align="right">@item.TacInvMin</td>
+                                            <td align="right" class="text-danger"> @item.Perc % </td>
+                                            <td align="right"><span class="badge badge-danger">@item.Msg</span></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="~/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="~/js/inspinia.js"></script>
+<script src="~/js/plugins/pace/pace.min.js"></script>
+
+<!-- jQuery UI -->
+<script src="~/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Flot -->
+<script src="~/js/plugins/flot/jquery.flot.js"></script>
+<script src="~/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="~/js/plugins/flot/jquery.flot.spline.js"></script>
+<script src="~/js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="~/js/plugins/flot/jquery.flot.pie.js"></script>
+
+
+  <script>
+        $(document).ready(function() {
+
+            // Alert Message
+            @Html.Raw(msg);
+
+            $("#flot-dashboard-chart").length && $.plot($("#flot-dashboard-chart"), [
+                data1, data2
+            ],
+                    {
+                        series: {
+                            lines: {
+                                show: false,
+                                fill: true
+                            },
+                            splines: {
+                                show: true,
+                                tension: 0.4,
+                                lineWidth: 1,
+                                fill: 0.4
+                            },
+                            points: {
+                                radius: 0,
+                                show: true
+                            },
+                            shadowSize: 2
+                        },
+                        grid: {
+                            hoverable: true,
+                            clickable: true,
+                            tickColor: "#d5d5d5",
+                            borderWidth: 1,
+                            color: '#d5d5d5'
+                        },
+                        colors: ["#1ab394", "#1C84C6"],
+                        xaxis:{
+                        },
+                        yaxis: {
+                            ticks: 4
+                        },
+                        tooltip: false
+                    }
+            );
+
+        });
+
+
+        var data1 = [
+            @{
+                int i = 0;
+                foreach (var item in Model.Actividad.OrderBy(x=>x.Dia))
+                {
+                    if (i != 0)
+                        @String.Format(",");
+
+                    @String.Format("[{0},{1}]", item.Dia, item.Asignaciones)
+                    i++;
+                }
+            }
+        ];
+
+        var data2 = [
+            @{
+                int j = 0;
+                foreach (var item in Model.Actividad.OrderBy(x=>x.Dia))
+                {
+                    if (j != 0)
+                        @String.Format(",");
+
+                    @String.Format("[{0},{1}]", item.Dia, item.Retiros)
+                    j++;
+                }
+            }
+        ];
+
+    // var data1 = [  [0,4],[1,8],[2,5],[3,10],[4,4],[5,16],[6,5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],[16,6]   ];
+    // var data2 = [ [0,1],[1,0],[2,2],[3,0],[4,1],[5,3],[6,1],[7,5],[8,2],[9,3],[10,2],[11,1],[12,0],[13,2],[14,8],[15,0],[16,0] ];
+
+</script>

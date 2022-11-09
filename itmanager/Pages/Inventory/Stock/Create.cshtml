@@ -1,0 +1,100 @@
+﻿@page "{id:int}"
+@model itmanager.Pages.Inventory.Details.CreateModel
+
+@{
+    ViewData["Module"] = "Detalle de Inventario";
+    ViewData["Title"] = "Captura de Inventario";
+}
+<partial name="_Breadcrumb"/>
+
+<p style="margin-top:10px"> <button class="btn btnew btn-warning" id="btn-show-scanner" onclick="searchqr()"> Buscar activo desde QRCode</button></p>
+<iframe src="~/prueba.html" style=" width="500px" height="0px" id="iframesearchqr" scrolling="yes"></iframe>
+
+<div id="reader" width="600px"></div>
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" class="formbox" id="form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="item">
+                <label asp-for="DinDetalleInventario.ActUid" class="control-label">Identificador de Activo</label>
+                <input asp-for="DinDetalleInventario.ActUid" id="inputsearchgrid" readonly class="form-control" />
+                <span id="found" class="badge badge-primary" style="display:none">Encontrado</span>
+            </div>
+            <div class="item item-4">
+                <label class="control-label">Modelo</label>
+                <input type="text" id="inputsearchmodel" readonly class="form-control" />
+            </div>
+            <div class="item">
+                <label asp-for="DinDetalleInventario.DinEstado" class="control-label">Estado</label>
+                <select asp-for="DinDetalleInventario.DinEstado" class ="form-control" required>
+                    <option value="stock">En Stock</option>
+                    <option value="revision">Revisión</option>
+                </select>
+            </div>
+           <div class="item item-4">
+                <label asp-for="DinDetalleInventario.DinComentarios" class="control-label">Comentarios</label>
+                <textarea asp-for="DinDetalleInventario.DinComentarios" class="form-control"></textarea>
+                <span asp-validation-for="DinDetalleInventario.DinComentarios" class="text-danger"></span>
+            </div>
+            <div class="item item-5" nowrap>
+                <input type="submit" value="Crear" class="btn btn-primary"/> | 
+                <a class="btn btn-warning" href="/Inventory/Stock/List/@RouteData.Values["id"]">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+
+
+<script src="/js/html5-qrcode.min.js"></script>
+<script>
+
+$(document).ready(function() {
+
+  $('#form-data').on('submit', function(e){
+        e.preventDefault();
+
+      if ($('#inputsearchmodel').val().length > 0) {
+          this.submit();
+      } else {
+        const Toast = Swal.mixin({toast: true, position: 'top-end', showConfirmButton: false, timer: 3000, timerProgressBar: true, didOpen: (toast) => { toast.addEventListener('mouseenter', Swal.stopTimer); toast.addEventListener('mouseleave', Swal.resumeTimer)}})
+        Toast.fire({ icon: 'warning', title:'Acción', text:'Debe buscar un activo para crear el inventario' })
+        return false;
+      }
+  })
+})
+
+function searchqr() {
+
+    const html5QrCode = new Html5Qrcode("reader");
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+
+       const info = decodedText.split("|");
+	    
+        $("#inputsearchgrid").val(info[0]);
+        $("#inputsearchmodel").val(info[2]);
+        $("#found").show();
+
+        html5QrCode.stop().then((ignore) => {
+          // QR Code scanning is stopped.
+        }).catch((err) => {
+          // Stop failed, handle it.
+        });
+    };
+
+    const config = { fps: 10, qrbox: { width: 500, height: 500 } };
+
+    // If you want to prefer front camera
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
+    // If you want to prefer back camera
+    //html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+}
+
+function onScanFailure(error) {
+  console.warn(`Code scan error = ${error}`);
+}
+
+</script>

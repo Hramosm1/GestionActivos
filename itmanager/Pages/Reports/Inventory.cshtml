@@ -1,0 +1,90 @@
+﻿@page
+@model itmanager.Pages.Reports.InventoryModel
+
+@{
+    ViewData["Module"] = "Inventarios";
+    ViewData["Title"] = "Reporte de Inventarios";
+}
+
+<partial name="_Breadcrumb"/>
+
+<div class="ibox-content">
+	<div class="col-lg-12">
+
+        <div>
+            <form method="post" id="form1" asp-page-handler="confirm">
+            <p>Seleccione el inventario</p>
+            <p><select asp-for="idInventory" class ="form-control" asp-items="ViewBag.Invs" required onChange="document.getElementById('form1').submit();"></select></p>
+            </form>
+        </div>
+
+        <div class="">
+             <table id="datagrid" class="display">
+                <thead>
+                    <tr>
+                        <th>
+                            Fecha
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                        <th>
+                           Usuario
+                        </th>
+                        <th>
+                            Comentarios
+                        </th>
+                        <th>
+                            Modelo
+                        </th>
+                        <th>
+                            Serie
+                        </th>
+                        <th>
+                            ActEstado
+                        </th>
+                        <th>
+                            Condicion
+                        </th>
+                        <th>
+                            Licencia
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model.VInventario) {
+                    <tr>
+                        <td nowrap>
+                            @Html.DisplayFor(modelItem => item.DinFecha)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DinEstado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DinUsuario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DinComentarios)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActModelo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActSerie)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActEstado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActCondicion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActLicencia)
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
